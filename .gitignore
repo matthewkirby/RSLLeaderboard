@@ -1,0 +1,9 @@
+# Python things
+__pycache__/
+
+# Project things
+databases/
+add_races/
+
+# Temporary things as I dev
+oldscripts/
