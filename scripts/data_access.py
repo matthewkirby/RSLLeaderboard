@@ -5,6 +5,11 @@ import glob
 import json
 import settings
 
+def create_connection(db_path):
+    """ Create database connection and execute any queries that should be run every time. """
+    conn = sqlite3.connect(db_path)
+    conn.execute("PRAGMA foreign_keys = ON;")
+    return conn
 
 def initialize_databases():
     schema_paths = [
@@ -21,7 +26,7 @@ def initialize_databases():
                 sql_commands = file.read()
 
             # Establish connection to the database
-            conn = sqlite3.connect(settings.racelist_db_path)
+            conn = create_connection(settings.racelist_db_path)
             c = conn.cursor()
 
             # Execute SQL commands from the file
