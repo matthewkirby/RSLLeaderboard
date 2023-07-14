@@ -5,11 +5,13 @@ import glob
 import json
 import settings
 
+
 def create_connection(db_path):
     """ Create database connection and execute any queries that should be run every time. """
     conn = sqlite3.connect(db_path)
     conn.execute("PRAGMA foreign_keys = ON;")
     return conn
+
 
 def initialize_databases():
     schema_paths = [
@@ -53,3 +55,44 @@ def delete_databases():
             print(f"Deleted database: {db_path}")
 
     print("All databases deleted.")
+
+
+def insert_racelist(race_data):
+    conn = create_connection(settings.racelist_db_path)
+    c = conn.cursor()
+
+    insert_sql = """
+        INSERT INTO racelist (slug, url, ended_at)
+        VALUES (?, ?, ?)
+    """
+
+    c.execute(insert_sql, (
+        race_data['slug'],
+        race_data['url'],
+        race_data['ended_at']
+    ))
+
+    conn.commit()
+    conn.close()
+
+
+def insert_entrants(race_data, entrant):
+    conn = create_connection(settings.racelist_db_path)
+    c = conn.cursor()
+
+    insert_sql = """
+        INSERT INTO entrants (race_slug, user_id, status, finish_time, place, comment)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """
+
+    c.execute(insert_sql, (
+        race_data['slug'],
+        entrant['user']['id'],
+        entrant['status']['value'],
+        entrant['finish_time'],
+        entrant['place'],
+        entrant['comment']
+    ))
+
+    conn.commit()
+    conn.close()

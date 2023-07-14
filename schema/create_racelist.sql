@@ -1,11 +1,9 @@
--- Create the racelist table
 CREATE TABLE IF NOT EXISTS racelist (
   slug TEXT PRIMARY KEY,    -- Unique identifier for the race
   url TEXT,                 -- URL of the race, racetime.gg/[url]
   ended_at DATETIME         -- Date and time when the race ended
 );
 
--- Create the entrants table
 CREATE TABLE IF NOT EXISTS entrants (
   id INTEGER PRIMARY KEY AUTOINCREMENT,   -- Unique identifier for each entrant
   race_slug TEXT,                         -- Foreign key referencing the racelist table
