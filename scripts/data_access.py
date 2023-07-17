@@ -58,12 +58,17 @@ def delete_databases():
 
 
 def insert_racelist(race_data):
+    """ Inserts an entry into the racelist table. First checks to ensure the race does not already have an entry.
+    Returns: status_code (boolean indicating if the race was added)
+    """
+    status_code = False
     conn = create_connection(settings.racelist_db_path)
     c = conn.cursor()
 
     # Check if the entry already exists
     c.execute("SELECT COUNT(*) FROM racelist WHERE slug = ?", (race_data['slug'],))
     if c.fetchone()[0] == 0:
+        print(f"Adding new race: {race_data['slug']}")
         insert_sql = """
             INSERT INTO racelist (slug, url, ended_at, season)
             VALUES (?, ?, ?, ?)
@@ -76,13 +81,14 @@ def insert_racelist(race_data):
             settings.current_season
         ))
         conn.commit()
-    else:
-        print(f"Attempting to add {race_data['slug']} but it already exists. Skipping...")
+        status_code = True
 
     conn.close()
+    return status_code
 
 
-def insert_entrants(race_data, entrant):
+def insert_entrant(race_data, entrant):
+    print(f"\tAdding {entrant['user']['id']} to {race_data['slug']}.")
     conn = create_connection(settings.racelist_db_path)
     c = conn.cursor()
 
@@ -113,6 +119,12 @@ def load_json_races():
     json_list = glob.glob(os.path.join(settings.script_dir, "add_races", "**.json"))
     print(f"Found {len(json_list)} json races.")
     for newrace in json_list:
+        # Load and add the race to the racelist table
         with open(newrace, 'r') as fpointer:
             race_data = json.load(fpointer)
-        insert_racelist(race_data)
+        status_code = insert_racelist(race_data)
+
+        # If the race was added, add the entrants
+        if status_code:
+            for entrant in race_data['entrants']:
+                insert_entrant(race_data, entrant)
