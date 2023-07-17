@@ -8,6 +8,9 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 config = ConfigParser()
 config.read(os.path.join(project_root, 'config', 'config.ini'))
 
+# Define global app settings
+current_season = config.getint('AppSettings', 'current_season')
+
 # Define paths from config file
 racelist_db_path = os.path.join(project_root, config.get('RacelistDB', 'database_path'))
 racelist_schema_path = os.path.join(project_root, config.get('RacelistDB', 'schema_path'))

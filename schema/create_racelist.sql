@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS racelist (
   slug TEXT PRIMARY KEY,    -- Unique identifier for the race
   url TEXT,                 -- URL of the race, racetime.gg/[url]
-  ended_at DATETIME         -- Date and time when the race ended
+  ended_at DATETIME,        -- Date and time when the race ended
+  season INTEGER            -- RSL Season the race is associated with
 );
 
 CREATE TABLE IF NOT EXISTS entrants (

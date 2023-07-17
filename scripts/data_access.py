@@ -69,7 +69,8 @@ def insert_racelist(race_data):
     c.execute(insert_sql, (
         race_data['slug'],
         race_data['url'],
-        race_data['ended_at']
+        race_data['ended_at'],
+        settings.current_season
     ))
 
     conn.commit()
