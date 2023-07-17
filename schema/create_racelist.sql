@@ -11,7 +11,9 @@ CREATE TABLE IF NOT EXISTS players (
   discriminator TEXT,             -- The racetime.gg discriminator of the player
   racetime_url TEXT,              -- The URL to the player's racetime.gg profile
   twitch_display_name TEXT,       -- The player's display name on twitch.tv
-  twitch_url TEXT                 -- A link to the player twitch.tv page
+  twitch_url TEXT,                -- A link to the player twitch.tv page
+  entries INTEGER DEFAULT 0,      -- The number of races the player has entered in the current season
+  finishes INTEGER DEFAULT 0      -- The number of races the player has finished in the current season
 );
 
 CREATE TABLE IF NOT EXISTS entrants (
