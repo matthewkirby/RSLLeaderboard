@@ -7,6 +7,7 @@ def main(reset):
         return
 
     dba.initialize_databases()
+    dba.load_json_races()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate Leaderboard')

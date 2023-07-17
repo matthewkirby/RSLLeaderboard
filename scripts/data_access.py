@@ -61,19 +61,24 @@ def insert_racelist(race_data):
     conn = create_connection(settings.racelist_db_path)
     c = conn.cursor()
 
-    insert_sql = """
-        INSERT INTO racelist (slug, url, ended_at, season)
-        VALUES (?, ?, ?, ?)
-    """
+    # Check if the entry already exists
+    c.execute("SELECT COUNT(*) FROM racelist WHERE slug = ?", (race_data['slug'],))
+    if c.fetchone()[0] == 0:
+        insert_sql = """
+            INSERT INTO racelist (slug, url, ended_at, season)
+            VALUES (?, ?, ?, ?)
+        """
 
-    c.execute(insert_sql, (
-        race_data['slug'],
-        race_data['url'],
-        race_data['ended_at'],
-        settings.current_season
-    ))
+        c.execute(insert_sql, (
+            race_data['slug'],
+            race_data['url'],
+            race_data['ended_at'],
+            settings.current_season
+        ))
+        conn.commit()
+    else:
+        print(f"Attempting to add {race_data['slug']} but it already exists. Skipping...")
 
-    conn.commit()
     conn.close()
 
 
@@ -97,3 +102,17 @@ def insert_entrants(race_data, entrant):
 
     conn.commit()
     conn.close()
+
+
+def load_json_races():
+    """
+    If a race needs to be manually added to the database, place it in the add_races folder.
+    Deletes the json afterwards. (NOT YET IMPLEMENTED)
+    """
+    newdata = {}
+    json_list = glob.glob(os.path.join(settings.script_dir, "add_races", "**.json"))
+    print(f"Found {len(json_list)} json races.")
+    for newrace in json_list:
+        with open(newrace, 'r') as fpointer:
+            race_data = json.load(fpointer)
+        insert_racelist(race_data)

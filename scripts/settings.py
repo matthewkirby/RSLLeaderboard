@@ -3,6 +3,7 @@ from configparser import ConfigParser
 
 # Define the root directory of the project
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+script_dir = os.path.join(project_root, 'scripts')
 
 # Read the configuration file
 config = ConfigParser()
