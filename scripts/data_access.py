@@ -57,12 +57,11 @@ def delete_databases():
     print("All databases deleted.")
 
 
-def insert_racelist(race_data):
+def insert_racelist(conn, race_data):
     """ Inserts an entry into the racelist table. First checks to ensure the race does not already have an entry.
     Returns: status_code (boolean indicating if the race was added)
     """
     status_code = False
-    conn = create_connection(settings.racelist_db_path)
     c = conn.cursor()
 
     # Check if the entry already exists
@@ -80,16 +79,54 @@ def insert_racelist(race_data):
             race_data['ended_at'],
             settings.current_season
         ))
-        conn.commit()
         status_code = True
 
-    conn.close()
     return status_code
 
 
-def insert_entrant(race_data, entrant):
+def fetch_all_races(conn, season=settings.current_season, columns=None):
+    c = conn.cursor()
+
+    # Build the SELECT statement
+    if columns is None:
+        select_columns = "*"
+    else:
+        select_columns = ", ".join(columns)
+
+    # Build the WHERE clause for the season
+    where_clause = f"WHERE season = {season}"
+
+    c.execute(f"SELECT {select_columns} FROM racelist {where_clause} ORDER BY ended_at ASC")
+    races = c.fetchall()
+    return races
+
+
+def insert_player(conn, player):
+    c = conn.cursor()
+
+    # Check if the entrant exists in the player table already
+    c.execute("SELECT COUNT(*) FROM players WHERE userid = ?", (player['id'],))
+    count = c.fetchone()[0]
+    if count > 0:
+        return
+
+    insert_sql = """
+        INSERT INTO players (userid, name, discriminator, racetime_url, twitch_display_name, twitch_url)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """
+
+    c.execute(insert_sql, (
+        player['id'],
+        player['name'],
+        player['discriminator'],
+        player['url'],
+        player['twitch_display_name'],
+        player['twitch_channel']
+    ))
+
+
+def insert_entrant(conn, race_data, entrant):
     print(f"\tAdding {entrant['user']['id']} to {race_data['slug']}.")
-    conn = create_connection(settings.racelist_db_path)
     c = conn.cursor()
 
     insert_sql = """
@@ -106,8 +143,12 @@ def insert_entrant(race_data, entrant):
         entrant['comment']
     ))
 
-    conn.commit()
-    conn.close()
+
+def fetch_entrants_by_race(conn, race_slug):
+    c = conn.cursor()
+    c.execute("SELECT * FROM entrants WHERE race_slug = ?", (race_slug,))
+    entrants = c.fetchall()
+    return entrants
 
 
 def load_json_races():
@@ -117,14 +158,22 @@ def load_json_races():
     """
     newdata = {}
     json_list = glob.glob(os.path.join(settings.script_dir, "add_races", "**.json"))
-    print(f"Found {len(json_list)} json races.")
+    if len(json_list) < 1:
+        return
+
+    print(f"Found {len(json_list)} new json races.")
+    conn = create_connection(settings.racelist_db_path)
     for newrace in json_list:
         # Load and add the race to the racelist table
         with open(newrace, 'r') as fpointer:
             race_data = json.load(fpointer)
-        status_code = insert_racelist(race_data)
+        status_code = insert_racelist(conn, race_data)
 
         # If the race was added, add the entrants
         if status_code:
             for entrant in race_data['entrants']:
-                insert_entrant(race_data, entrant)
+                insert_player(conn, entrant['user'])
+                insert_entrant(conn, race_data, entrant)
+        conn.commit()
+
+    conn.close()
