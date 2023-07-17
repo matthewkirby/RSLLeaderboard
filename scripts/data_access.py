@@ -16,7 +16,6 @@ def create_connection(db_path):
 def initialize_databases():
     schema_paths = [
         settings.racelist_schema_path,
-        settings.playerlist_schema_path,
         settings.leaderboard_schema_path
     ]
 
@@ -44,7 +43,6 @@ def delete_databases():
     # Get the paths to the databases from settings
     database_paths = [
         settings.racelist_db_path,
-        settings.playerlist_db_path,
         settings.leaderboard_db_path
     ]
 
