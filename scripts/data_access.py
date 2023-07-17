@@ -62,8 +62,8 @@ def insert_racelist(race_data):
     c = conn.cursor()
 
     insert_sql = """
-        INSERT INTO racelist (slug, url, ended_at)
-        VALUES (?, ?, ?)
+        INSERT INTO racelist (slug, url, ended_at, season)
+        VALUES (?, ?, ?, ?)
     """
 
     c.execute(insert_sql, (
