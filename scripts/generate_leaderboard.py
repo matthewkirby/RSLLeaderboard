@@ -1,5 +1,8 @@
 import argparse
 import data_access as dba
+import calculate_ratings as cr
+import settings
+
 
 def main(reset):
     if reset:
@@ -8,6 +11,8 @@ def main(reset):
 
     dba.initialize_databases()
     dba.load_json_races()
+    cr.calculate_ratings(settings.current_season)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate Leaderboard')

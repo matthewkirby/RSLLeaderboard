@@ -82,7 +82,7 @@ def insert_racelist(conn, race_data):
     return status_code
 
 
-def fetch_all_races(conn, season=settings.current_season, columns=None):
+def fetch_all_races(conn, season, columns=None):
     c = conn.cursor()
 
     # Build the SELECT statement
@@ -123,6 +123,38 @@ def insert_player(conn, player):
     ))
 
 
+def fetch_all_players(conn, columns=None):
+    c = conn.cursor()
+
+    # Build the SELECT statement
+    if columns is None:
+        select_columns = "*"
+    else:
+        select_columns = ", ".join(columns)
+
+    c.execute(f"SELECT {select_columns} FROM players")
+    players = c.fetchall()
+    return players
+
+
+def update_players(conn, playerlist):
+    c = conn.cursor()
+
+    update_sql = """
+        UPDATE players
+        SET entries = ?, finishes = ?, rating_mu = ?, rating_sigma = ?
+        WHERE userid = ?
+    """
+    for player in playerlist.values():
+        c.execute(update_sql, (
+            player.entries,
+            player.finishes,
+            player.rating.mu,
+            player.rating.sigma,
+            player.userid
+        ))
+
+
 def insert_entrant(conn, race_data, entrant):
     print(f"\tAdding {entrant['user']['id']} to {race_data['slug']}.")
     c = conn.cursor()
@@ -142,11 +174,38 @@ def insert_entrant(conn, race_data, entrant):
     ))
 
 
-def fetch_entrants_by_race(conn, race_slug):
+def fetch_entrants_by_race(conn, race_slug, columns=None):
     c = conn.cursor()
-    c.execute("SELECT * FROM entrants WHERE race_slug = ?", (race_slug,))
+
+    # Build the SELECT statement
+    if columns is None:
+        select_columns = "*"
+    else:
+        select_columns = ", ".join(columns)
+
+    c.execute(f"SELECT {select_columns} FROM entrants WHERE race_slug = ?", (race_slug,))
     entrants = c.fetchall()
     return entrants
+
+
+def update_entrants(conn, racelist):
+    c = conn.cursor()
+
+    update_sql = """
+        UPDATE entrants
+        SET rating_before_mu = ?, rating_before_sigma = ?, rating_after_mu = ?, rating_after_sigma = ?
+        WHERE id = ?
+    """
+
+    for race in racelist:
+        for entrant in race.entrants:
+            c.execute(update_sql, (
+                entrant.rating_before.mu,
+                entrant.rating_before.sigma,
+                entrant.rating_after.mu,
+                entrant.rating_after.sigma,
+                entrant.primary_key
+            ))
 
 
 def load_json_races():
