@@ -1,7 +1,11 @@
+# Privates
+keys/
+
 # Python things
 __pycache__/
 
-# Project things
+# Data
+data/
 databases/
 add_races/
 

@@ -55,6 +55,13 @@ def delete_databases():
     print("All databases deleted.")
 
 
+def race_exists(conn, slug):
+    c = conn.cursor()
+    c.execute("SELECT COUNT(*) FROM racelist WHERE slug = ?", (slug,))
+    exists = c.fetchone()[0]
+    return exists
+
+
 def insert_racelist(conn, race_data):
     """ Inserts an entry into the racelist table. First checks to ensure the race does not already have an entry.
     Returns: status_code (boolean indicating if the race was added)
@@ -63,8 +70,7 @@ def insert_racelist(conn, race_data):
     c = conn.cursor()
 
     # Check if the entry already exists
-    c.execute("SELECT COUNT(*) FROM racelist WHERE slug = ?", (race_data['slug'],))
-    if c.fetchone()[0] == 0:
+    if not race_exists(conn, race_data['slug']):
         print(f"Adding new race: {race_data['slug']}")
         insert_sql = """
             INSERT INTO racelist (slug, url, ended_at, season)
@@ -80,6 +86,13 @@ def insert_racelist(conn, race_data):
         status_code = True
 
     return status_code
+
+
+def delete_race(conn, slug):
+    c = conn.cursor()
+    c.execute("DELETE FROM entrants WHERE race_slug = ?", (slug,))
+    c.execute("DELETE FROM racelist WHERE slug = ?", (slug,))
+    conn.commit()
 
 
 def fetch_all_races(conn, season, columns=None):
@@ -208,6 +221,16 @@ def update_entrants(conn, racelist):
             ))
 
 
+def insert_new_race(conn, race_data):
+    status_code = insert_racelist(conn, race_data)
+
+    # If the race was added, add the entrants
+    if status_code:
+        for entrant in race_data['entrants']:
+            insert_player(conn, entrant['user'])
+            insert_entrant(conn, race_data, entrant)
+
+
 def load_json_races():
     """
     If a race needs to be manually added to the database, place it in the add_races folder.
@@ -224,13 +247,7 @@ def load_json_races():
         # Load and add the race to the racelist table
         with open(newrace, 'r') as fpointer:
             race_data = json.load(fpointer)
-        status_code = insert_racelist(conn, race_data)
-
-        # If the race was added, add the entrants
-        if status_code:
-            for entrant in race_data['entrants']:
-                insert_player(conn, entrant['user'])
-                insert_entrant(conn, race_data, entrant)
+        insert_new_race(conn, race_data)
         conn.commit()
 
     conn.close()
