@@ -201,7 +201,6 @@ def update_race_data(season_number, refresh):
 
     google_client.session.close()
     conn.close()
-    return
 
 
 def delete_race(season_number, race_number, dbonly):
@@ -211,7 +210,6 @@ def delete_race(season_number, race_number, dbonly):
     if not dbonly:
         delete_ra_info(season_number, race_slug)
     conn.close()
-    return
 
 
 def validate_date(date_str):
