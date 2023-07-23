@@ -3,6 +3,7 @@ keys/
 
 # Python things
 __pycache__/
+venv/
 
 # Data
 data/

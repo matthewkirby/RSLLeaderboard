@@ -1,12 +1,19 @@
 import argparse
+import settings
 import data_access as dba
 import calculate_ratings as cr
-import settings
+from fetch_racetime import get_new_racetime_races, reset_racetime_data
 
 
 def main():
+    # If required, set up the environment
     dba.initialize_databases()
+
+    # Load any missing races
     dba.load_json_races()
+    get_new_racetime_races()
+
+    # Calculate the leaderboard ratings
     cr.calculate_ratings(settings.current_season)
 
 
@@ -17,5 +24,6 @@ if __name__ == "__main__":
 
     if args.reset:
         dba.delete_databases()
+        reset_racetime_data()
     else:
         main()
