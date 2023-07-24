@@ -1,0 +1,6 @@
+# python things
+__pycache__/
+venv/
+
+# data
+add_races/
