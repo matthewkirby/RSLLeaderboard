@@ -8,7 +8,7 @@ from models.player import Player
 
 
 _required_races_to_qualify = 3
-_leaderboard_table_file_path = os.path.join(settings.frontend_dir, 'leaderboard.json')
+_leaderboard_table_file_path = os.path.join(settings.frontend_dir, 'public', 'leaderboard.json')
 
 
 def _save_player_list(data):
