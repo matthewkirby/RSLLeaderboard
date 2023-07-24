@@ -7,11 +7,9 @@ databases/
 leaderboard.json
 
 # Misc
+venv/
 .DS_Store
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Temporary things as I dev
-oldscripts/
