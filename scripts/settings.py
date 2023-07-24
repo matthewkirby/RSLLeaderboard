@@ -10,6 +10,7 @@ environment = os.getenv("RSL_LEADERBOARD_ENV", "dev")
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 script_dir = os.path.join(project_root, 'scripts')
 data_dir = os.path.join(project_root, 'data')
+frontend_dir = os.path.join(project_root, 'frontend')
 
 # Read the configuration file
 _config = ConfigParser()

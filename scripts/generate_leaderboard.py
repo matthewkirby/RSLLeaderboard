@@ -3,6 +3,7 @@ import settings
 import data_access as dba
 import calculate_ratings as cr
 from fetch_racetime import get_new_racetime_races, reset_racetime_data
+from leaderboard import summarize_seasonal_leaderboard
 
 
 def main():
@@ -15,6 +16,7 @@ def main():
 
     # Calculate the leaderboard ratings
     cr.calculate_ratings(settings.current_season)
+    summarize_seasonal_leaderboard()
 
 
 if __name__ == "__main__":

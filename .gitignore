@@ -9,6 +9,7 @@ venv/
 data/
 databases/
 add_races/
+leaderboard.json
 
 # Temporary things as I dev
 oldscripts/
