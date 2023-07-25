@@ -1,0 +1,53 @@
+/* QualifiedTable.module.css */
+span.placement {
+  flex: 0 0 50px;
+  align-items: flex-start;
+  flex-direction: column;
+  text-align: center;
+}
+
+.firstPlace {
+  color: gold;
+  font-weight: 900;  
+}
+
+.secondPlace {
+  color: silver;
+  font-weight: 900;
+}
+
+.thirdPlace {
+  color: #cd7f32;
+  font-weight: 900;
+}
+
+.name {
+  flex: 0 0 380px;
+  text-align: left;
+}
+
+.rating {
+  flex: 0 0 80px;
+  text-align: center;
+}
+
+.extraData {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: 0 0 90px;
+  justify-content: center;
+  margin:  0 5px;
+}
+
+.extraData .finishes {
+  line-height: 16px;
+  font-size: 16px;
+  color: #90ee90;
+}
+
+.extraData .entries {
+  line-height: 1;
+  font-size: 12px;
+  color: #bdc3c7;
+}

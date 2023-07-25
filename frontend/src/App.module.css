@@ -1,0 +1,5 @@
+/* App.module.css */
+.updateDate {
+  display: flex;
+  justify-content: space-around;
+}

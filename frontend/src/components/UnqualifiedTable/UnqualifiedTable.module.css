@@ -1,0 +1,11 @@
+/* UnqualifiedTable.module.css */
+.unrankedName {
+  text-align: left;
+  padding-left: 8px;
+}
+
+.unrankedRemaining {
+  color: #8c898c;
+  margin: 0;
+  font-size: 14px;
+}
