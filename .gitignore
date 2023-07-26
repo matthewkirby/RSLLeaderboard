@@ -8,6 +8,7 @@ leaderboard.json
 
 # Misc
 venv/
+__pycache__/
 .DS_Store
 .env.local
 .env.development.local
