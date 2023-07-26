@@ -11,6 +11,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 script_dir = os.path.join(project_root, 'scripts')
 data_dir = os.path.join(project_root, 'data')
 frontend_dir = os.path.join(project_root, 'frontend')
+backend_dir = os.path.join(project_root, 'backend')
 
 # Read the configuration file
 _config = ConfigParser()
@@ -29,11 +30,10 @@ for _snum, _sdata in _season_dates.items():
     _end_date = datetime.fromisoformat(_sdata["end_date"]) if not _season_in_progress else None
     season_dates[int(_snum)] = (_start_date, _end_date)
 
-# Define paths from config file
-racelist_db_path = os.path.join(project_root, _config.get('RacelistDB', 'database_path'))
-racelist_schema_path = os.path.join(project_root, _config.get('RacelistDB', 'schema_path'))
-leaderboard_db_path = os.path.join(project_root, _config.get('LeaderboardDB', 'database_path'))
-leaderboard_schema_path = os.path.join(project_root, _config.get('LeaderboardDB', 'schema_path'))
+# Define paths to the data files
+racelist_db_path = os.path.join(data_dir, _config.get('RacelistDatabase', 'database_file'))
+racelist_schema_path = os.path.join(project_root, "schema", _config.get('RacelistDatabase', 'schema_file'))
+leaderboard_file_path = os.path.join(data_dir, _config.get('LeaderboardData', 'data_file'))
 
 # Define google sheets api config
 google_sheets_key_path = os.path.join(project_root, _config.get('RatedAsync', 'google_sheets_path'))
