@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import QualifiedTable, { QualifiedPlayerData } from './components/QualifiedTable';
 import UnqualifiedTable, { UnqualifiedPlayerData } from './components/UnqualifiedTable';
 import styles from './App.module.css';
+import axios from 'axios';
 
 type LeaderboardData = {
   metadata: {
@@ -14,14 +15,15 @@ type LeaderboardData = {
   unqualified: UnqualifiedPlayerData[];
 };
 
+const BASE_BACKEND_URL = 'http://localhost:5000/api';
+
 const App: React.FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData | null>(null);
 
   useEffect(() => {
-    // Fetch data from the JSON file
-    fetch('/leaderboard.json')
-      .then((response) => response.json())
-      .then((data) => setLeaderboardData(data));
+    axios.get(`${BASE_BACKEND_URL}/leaderboard`)
+      .then((response) => setLeaderboardData(response.data))
+      .catch((error) => console.error('Error fetching leaderboard data:', error));
   }, []);
 
   if (!leaderboardData) {
