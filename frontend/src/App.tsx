@@ -29,7 +29,7 @@ const App: React.FC = () => {
   }
 
   const lastUpdateObject = new Date(leaderboardData.metadata.datetime);
-  const lastUpdateString = lastUpdateObject.toLocaleString();
+  const lastUpdateString = lastUpdateObject.toLocaleString([], {dateStyle: 'medium', timeStyle: 'long'});
   console.log(lastUpdateString)
 
   return (
