@@ -38,7 +38,7 @@ def summarize_seasonal_leaderboard():
     qualified_players = [{**qualified_players[i], 'placement': i+1} for i in range(len(qualified_players))]
 
     # Sort the unqualified players alphabetically
-    unqualified_players = [player for player in full_player_list if player['finishes'] < _required_races_to_qualify]
+    unqualified_players = [player for player in full_player_list if 0 < player['finishes'] < _required_races_to_qualify]
     unqualified_players = sorted(unqualified_players, key=lambda player: player['name'])
 
     # Output the data
