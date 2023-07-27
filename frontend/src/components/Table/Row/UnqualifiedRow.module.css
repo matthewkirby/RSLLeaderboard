@@ -1,10 +1,10 @@
-/* UnqualifiedTable.module.css */
-.unrankedName {
+/* components/Table/Row/UnqualifiedRow.module.css */
+.name {
   text-align: left;
   padding-left: 8px;
 }
 
-.unrankedRemaining {
+.remaining {
   color: #8c898c;
   margin: 0;
   font-size: 14px;

@@ -1,9 +1,9 @@
 // src/App.tsx
 import React, { useState, useEffect } from 'react';
-import QualifiedTable, { QualifiedPlayerData } from './components/QualifiedTable';
-import UnqualifiedTable, { UnqualifiedPlayerData } from './components/UnqualifiedTable';
-import styles from './App.module.css';
 import axios from 'axios';
+import Table from "./components/Table";
+import styles from './App.module.css';
+import { QualifiedPlayerData, UnqualifiedPlayerData } from 'components/Table/Row';
 
 type LeaderboardData = {
   metadata: {
@@ -36,10 +36,20 @@ const App: React.FC = () => {
 
   return (
     <div className="main">
-      <QualifiedTable season={leaderboardData.metadata.season} qualifiedPlayers={leaderboardData.qualified} /><p></p>
-      <UnqualifiedTable
-        unqualifiedPlayers={leaderboardData.unqualified}
-        requiredRaces={leaderboardData.metadata.required_races}
+      <Table
+        primaryHeading={[
+          `RSL Season ${leaderboardData.metadata.season}`
+        ]}
+        variant="qualified"
+        data={leaderboardData.qualified}
+      /><p></p>
+      <Table
+        primaryHeading={[
+          "Unranked Players",
+          `${leaderboardData.metadata.required_races} Total Finishes Required`
+        ]}
+        variant="unqualified"
+        data={leaderboardData.unqualified}
       /><p></p>
       <span className={styles.updateDate}>Last Updated: {lastUpdateString}</span>
     </div>

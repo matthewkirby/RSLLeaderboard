@@ -1,0 +1,14 @@
+.firstPlace {
+  color: gold;
+  font-weight: 900;  
+}
+
+.secondPlace {
+  color: silver;
+  font-weight: 900;
+}
+
+.thirdPlace {
+  color: #cd7f32;
+  font-weight: 900;
+}

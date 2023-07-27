@@ -1,24 +1,9 @@
-/* QualifiedTable.module.css */
-span.placement {
+/* components/Table/Row/QualifiedRow.module.css */
+.placement {
   flex: 0 0 50px;
   align-items: flex-start;
   flex-direction: column;
   text-align: center;
-}
-
-.firstPlace {
-  color: gold;
-  font-weight: 900;  
-}
-
-.secondPlace {
-  color: silver;
-  font-weight: 900;
-}
-
-.thirdPlace {
-  color: #cd7f32;
-  font-weight: 900;
 }
 
 .name {
@@ -40,13 +25,13 @@ span.placement {
   margin:  0 5px;
 }
 
-.extraData .finishes {
+.finishes {
   line-height: 16px;
   font-size: 16px;
   color: #90ee90;
 }
 
-.extraData .entries {
+.entries {
   line-height: 1;
   font-size: 12px;
   color: #bdc3c7;
