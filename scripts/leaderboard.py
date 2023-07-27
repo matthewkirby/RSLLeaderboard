@@ -45,7 +45,7 @@ def summarize_seasonal_leaderboard():
     leaderboard = {
         'metadata': {
             'season': settings.current_season,
-            'datetime': datetime.utcnow().isoformat(),
+            'datetime': datetime.utcnow().isoformat()+'Z',
             'required_races': _required_races_to_qualify
         },
         'qualified': qualified_players,
