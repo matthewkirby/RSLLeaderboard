@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
-from leaderboard import leaderboard_bp
-from endpoints.racelist_endpoint import racelist_bp
+from endpoints.leaderboard_endpoints import leaderboard_bp
+from endpoints.racelist_endpoints import racelist_bp
 
 
 rsl_api = Flask(__name__)
