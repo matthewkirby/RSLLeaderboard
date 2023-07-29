@@ -4,6 +4,7 @@ import axios from 'axios';
 import Table from "components/Table";
 import { QualifiedPlayerData, UnqualifiedPlayerData } from 'components/Table/Row';
 import LastUpdateDate from 'components/LastUpdateDate';
+import Loading from 'components/Loading';
 
 type LeaderboardData = {
   metadata: {
@@ -27,7 +28,7 @@ const Leaderboard: React.FC = () => {
   }, []);
 
   if (!leaderboardData) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const lastUpdateObject = new Date(leaderboardData.metadata.datetime);
