@@ -5,7 +5,7 @@
 }
 
 .remaining {
-  color: #8c898c;
+  color: var(--font-color-secondary);
   margin: 0;
   font-size: 14px;
 }
