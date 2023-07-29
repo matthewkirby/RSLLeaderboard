@@ -13,7 +13,8 @@
   --element-emphasis-color: #22a7f0;
 
   /* Default gap between elements */
-  --gap: 2em; 
+  --gap: 2em;
+  --element-primary-width: 620px;
 }
 
 html {
@@ -29,6 +30,8 @@ body {
 }
 
 .main {
-  width: 620px;
-  margin: 20px auto 0 auto;
+  padding: 0 var(--gap);
+  display: flex;
+  flex-flow: row wrap;
+  column-gap: var(--gap);
 }

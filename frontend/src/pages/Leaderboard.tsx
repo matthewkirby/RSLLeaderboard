@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from "components/Table";
-import styles from 'css/Leaderboard.module.css';
 import { QualifiedPlayerData, UnqualifiedPlayerData } from 'components/Table/Row';
+import LastUpdateDate from 'components/LastUpdateDate';
 
 type LeaderboardData = {
   metadata: {
@@ -42,7 +42,7 @@ const Leaderboard: React.FC = () => {
         ]}
         variant="qualified"
         data={leaderboardData.qualified}
-      /><p></p>
+      />
       <Table
         primaryHeading={[
           "Unranked Players",
@@ -50,8 +50,8 @@ const Leaderboard: React.FC = () => {
         ]}
         variant="unqualified"
         data={leaderboardData.unqualified}
-      /><p></p>
-      <span className={styles.updateDate}>Last Updated: {lastUpdateString}</span>
+      />
+      <LastUpdateDate lastUpdateString={lastUpdateString} />
     </div>
   );
 };

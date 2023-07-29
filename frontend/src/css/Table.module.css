@@ -1,12 +1,15 @@
 /* components/Table/Table.module.css */
 .table {
+  display: block;
   list-style: none;
   margin: 0 0 var(--gap) 0;
   padding: 0;
   background: var(--element-bg-color-base);
   border: 5px solid var(--element-border-color);
   border-radius: 8px;
-  width: 100%;
+  width:var(--element-primary-width);
+  height: fit-content;
+  flex: 0 0 auto;
 }
 
 .header {

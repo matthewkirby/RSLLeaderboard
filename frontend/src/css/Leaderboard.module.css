@@ -1,6 +1,0 @@
-/* css/Leaderboard.module.css */
-.updateDate {
-  display: flex;
-  justify-content: space-around;
-  margin: 0 0 var(--gap) 0;
-}
