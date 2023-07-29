@@ -1,4 +1,22 @@
 /* css/NavButton.module.css */
-.primary {
-  padding: 28px 32px;
+.link {
+  font-style: normal;
+  font-weight: 500;
+  text-transform: uppercase;
+  height: 100%;
+  padding: 21px 1rem 12px;
+  display: flex;
+  text-decoration: none;
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--font-color-main);
+}
+
+.link:hover {
+  color: var(--element-emphasis-color);
+  background-color: var(--element-bg-color-hover);
+}
+
+.active, .active:hover {
+  color: var(--element-emphasis-color);
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Leaderboard from 'pages/Leaderboard';
 import RaceHistory from 'pages/RaceHistory';
-import NavBar from 'components/NavBar/NavBar';
+import NavBar from 'components/NavBar';
 
 const App: React.FC = () => {
   return (
