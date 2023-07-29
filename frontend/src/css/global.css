@@ -11,6 +11,9 @@
   --element-bg-color-hover: #303030;
   --element-border-color: #151515;
   --element-emphasis-color: #22a7f0;
+
+  /* Default gap between elements */
+  --gap: 2em; 
 }
 
 html {
