@@ -1,6 +1,6 @@
 // components/Table/Row/UnqualifiedRow.tsx
 import React from 'react';
-import styles from './UnqualifiedRow.module.css';
+import styles from 'css/UnqualifiedRow.module.css';
 
 interface UnqualifiedPlayerData {
   name: string;

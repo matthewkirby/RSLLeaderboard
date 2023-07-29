@@ -1,6 +1,6 @@
 // components/Table/Table.tsx
 import React from 'react';
-import styles from './Table.module.css';
+import styles from 'css/Table.module.css';
 import rowComponents, { DataVariants, TableVariants } from './Row';
 
 interface TableProps {

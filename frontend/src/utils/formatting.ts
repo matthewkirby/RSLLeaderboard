@@ -1,4 +1,4 @@
-import styles from './OrdinalColors.module.css';
+import styles from 'css/OrdinalColors.module.css';
 
 export function getOrdinal(number: number): string {
   const suffixes = ['th', 'st', 'nd', 'rd'];

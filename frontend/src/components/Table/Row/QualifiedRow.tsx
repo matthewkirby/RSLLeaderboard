@@ -1,7 +1,7 @@
 // components/Table/Row/QualifiedRow.tsx
 import React from 'react';
 import { getOrdinal, addPlacementClass } from "utils/formatting";
-import styles from './QualifiedRow.module.css';
+import styles from 'css/QualifiedRow.module.css';
 
 interface QualifiedPlayerData {
   name: string;
