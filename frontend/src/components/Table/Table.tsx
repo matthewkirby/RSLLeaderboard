@@ -35,6 +35,7 @@ const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant
     <ol className={styles.table}>
       <li className={styles.header}>
         {primaryHeading.map((text, index) => <h4 key={index} className={styles.primaryHeader}>{text}</h4>)}
+        {secondaryHeading !== undefined ? <span className={styles.secondaryHeader}>{secondaryHeading}</span> : null}
       </li>
       {handleRowRender()}
     </ol>
