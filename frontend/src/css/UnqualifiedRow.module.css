@@ -1,11 +1,12 @@
 /* components/Table/Row/UnqualifiedRow.module.css */
 .name {
   text-align: left;
-  padding-left: 8px;
+  margin: 0 1rem;
 }
 
 .remaining {
   color: var(--font-color-secondary);
   margin: 0;
-  font-size: 14px;
+  font-size: .9rem;
+  margin-left: auto;
 }
