@@ -27,13 +27,12 @@ const Leaderboard: React.FC = () => {
       .catch((error) => console.error('Error fetching leaderboard data:', error));
   }, []);
 
-  if (!leaderboardData) {
+  if (leaderboardData === null) {
     return <Loading />;
   }
 
   const lastUpdateObject = new Date(leaderboardData.metadata.datetime);
   const lastUpdateString = lastUpdateObject.toLocaleString([], {dateStyle: 'medium', timeStyle: 'long'});
-  console.log(lastUpdateString)
 
   return (
     <div className="main">
