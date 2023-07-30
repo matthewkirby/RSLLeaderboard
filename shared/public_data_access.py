@@ -36,7 +36,7 @@ def get_race_entrants(conn, slug):
         FROM entrants
         LEFT JOIN players ON entrants.user_id = players.userid
         WHERE entrants.race_slug=?
-        ORDER BY entrants.place
+        ORDER BY COALESCE(entrants.place, 99999)
     """, (slug,))
     rawentrants = cursor.fetchall()
     entrants = [EntrantRecord(*row)._asdict() for row in rawentrants]
