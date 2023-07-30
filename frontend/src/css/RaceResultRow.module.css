@@ -1,0 +1,25 @@
+/* css/RaceResultRow.module.css */
+.placement {
+  flex: 0 0 8%;
+  text-align: center;
+}
+
+.name {
+  margin: 0 1rem;
+  flex: 1 0 40%;
+  text-align: left;
+}
+
+/* .comment {
+  
+} */
+
+.time {
+  flex: 0 0 15%;
+  text-align: center;
+}
+
+.delta {
+  flex: 0 0 10%;
+  text-align: center;
+}

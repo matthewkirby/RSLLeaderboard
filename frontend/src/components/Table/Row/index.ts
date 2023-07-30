@@ -2,9 +2,10 @@
 import React from "react";
 import QualifiedRow, { QualifiedPlayerData } from "./QualifiedRow";
 import UnqualifiedRow, { UnqualifiedPlayerData } from "./UnqualifiedRow";
+import RaceResultsRow, { RaceResultsData } from "./RaceResultRow";
 
-export type TableVariants = "qualified" | "unqualified";// | "race_results";
-export type DataVariants = QualifiedPlayerData | UnqualifiedPlayerData;
+export type TableVariants = "qualified" | "unqualified" | "raceResults";
+export type DataVariants = QualifiedPlayerData | UnqualifiedPlayerData | RaceResultsData;
 
 // I am using any here which is bad. I spent hours and could not resolve the issue.
 // The problem is that I want to say that the value has to be one of DataVariants
@@ -16,8 +17,8 @@ export type DataVariants = QualifiedPlayerData | UnqualifiedPlayerData;
 const rowComponents: Record<TableVariants, React.FC<any>> = {
   qualified: QualifiedRow,
   unqualified: UnqualifiedRow,
-  // race_results: null
+  raceResults: RaceResultsRow
 };
 
 export default rowComponents;
-export type { QualifiedPlayerData, UnqualifiedPlayerData };
+export type { QualifiedPlayerData, UnqualifiedPlayerData, RaceResultsData };
