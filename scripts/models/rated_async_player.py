@@ -1,3 +1,5 @@
+from tools import convert_duration_ISO8601
+
 class RatedAsyncPlayer:
     def __init__(self, fullname, userid, ruleset):
         self.name = fullname.split("#")[0].strip()
@@ -10,10 +12,16 @@ class RatedAsyncPlayer:
 
         self.done = False
         self.time = None
+        self.isoduration = None
         self.media = None # Usage not yet implemented
         self.place = None
 
     def rtgg_style_output(self):
+        if self.done:
+            self.isoduration = convert_duration_ISO8601(self.time)
+        else:
+            self.isoduration = self.time
+
         entrant = {
             'user': {
                 'id': self.userid,
@@ -26,7 +34,7 @@ class RatedAsyncPlayer:
             'status': {
                 'value': "done" if self.done else "dnf"
             },
-            'finish_time': self.time,
+            'finish_time': self.isoduration,
             'place': self.place,
             'comment': None
         }
