@@ -3,6 +3,8 @@ import React from 'react';
 import styles from 'css/Table.module.css';
 import rowComponents, { DataVariants, TableVariants } from './Row';
 
+type HandleRowRenderType = () => React.ReactNode;
+
 interface TableProps {
   primaryHeading: string[];
   secondaryHeading?: string;
@@ -17,16 +19,24 @@ const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant
     return null;
   }
 
+  const handleRowRender: HandleRowRenderType = () => {
+    if(data === undefined) {
+      return null;
+    } else {
+      return (data.map((player) => (
+        <li className={styles.row} key={player.name}>
+          <SubComponent key={player.name} {...player} />
+        </li>
+      )))
+    }
+  };
+
   return (
     <ol className={styles.table}>
       <li className={styles.header}>
         {primaryHeading.map((text, index) => <h4 key={index} className={styles.primaryHeader}>{text}</h4>)}
       </li>
-      {data.map((player) => (
-        <li className={styles.row} key={player.name}>
-          <SubComponent key={player.name} {...player} />
-        </li>
-      ))}
+      {handleRowRender()}
     </ol>
   );
 };
