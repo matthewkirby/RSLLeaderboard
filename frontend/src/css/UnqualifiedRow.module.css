@@ -6,7 +6,6 @@
 
 .remaining {
   color: var(--font-color-secondary);
-  margin: 0;
   font-size: .9rem;
-  margin-left: auto;
+  margin: 0 1rem 0 auto;
 }
