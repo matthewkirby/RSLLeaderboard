@@ -1,5 +1,6 @@
 // components/LastUpdateDate.tsx
 import React from 'react';
+import { formatDatetime } from 'utils/formatting';
 
 const stylesContainer: React.CSSProperties = {
   flexBasis: "100%",
@@ -20,7 +21,7 @@ const LastUpdateDate: React.FC<LastUpdateDateProps> = ({ lastUpdateString }) => 
   return (
     <span style={stylesContainer}>
       <span style={stylesText}>
-        Last Updated: {lastUpdateString}
+        Last Updated: {formatDatetime(lastUpdateString)}
       </span>
     </span>
   );

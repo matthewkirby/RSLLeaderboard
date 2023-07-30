@@ -31,9 +31,6 @@ const Leaderboard: React.FC = () => {
     return <Loading />;
   }
 
-  const lastUpdateObject = new Date(leaderboardData.metadata.datetime);
-  const lastUpdateString = lastUpdateObject.toLocaleString([], {dateStyle: 'medium', timeStyle: 'long'});
-
   return (
     <div className="main">
       <Table
@@ -51,7 +48,7 @@ const Leaderboard: React.FC = () => {
         variant="unqualified"
         data={leaderboardData.unqualified}
       />
-      <LastUpdateDate lastUpdateString={lastUpdateString} />
+      <LastUpdateDate lastUpdateString={leaderboardData.metadata.datetime} />
     </div>
   );
 };

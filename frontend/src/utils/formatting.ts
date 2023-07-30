@@ -17,3 +17,9 @@ export function addPlacementClass(ordinal: string): string {
     return "";
   }
 };
+
+export function formatDatetime(datetime: string): string {
+  const dateObject: Date = new Date(datetime);
+  const dateString: string = dateObject.toLocaleString([], {dateStyle: 'medium', timeStyle: 'long'});
+  return dateString;
+};
