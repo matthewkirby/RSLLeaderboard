@@ -1,8 +1,6 @@
 /* components/Table/Row/QualifiedRow.module.css */
 .placement {
   flex: 0 0 8%;
-  align-items: flex-start;
-  flex-direction: column;
   text-align: center;
 }
 
