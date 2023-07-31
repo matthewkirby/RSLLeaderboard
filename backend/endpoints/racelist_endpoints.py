@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 import os
 from settings import racelist_db_path, current_season
 import public_data_access as pub
@@ -31,3 +31,14 @@ def get_racelist():
         data = get_seasonal_races()
 
     return jsonify(data)
+
+@racelist_bp.route('/race_entrants', methods=['GET'])
+def get_race_entrants():
+    slug = request.args.get('slug', type=str)
+
+    if does_database_exist():
+        conn = pub.create_connection()
+        response = { slug: pub.get_race_entrants(conn, slug) }
+        conn.close()
+
+    return jsonify(response)
