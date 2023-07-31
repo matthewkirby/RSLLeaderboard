@@ -13,38 +13,51 @@ interface RaceData {
   url: string
 };
 
-interface RaceHistoryData {
-  racelist: RaceData[],
-  entrants: {
-    [key: string]: RaceResultsData[]
-  }
+interface RaceEntrantData {
+  [key: string]: RaceResultsData[]
 };
 
 const BASE_BACKEND_URL = 'http://localhost:5000/api';
 
 const RaceHistory: React.FC = () => {
-  const [raceHistoryData, setRaceHistoryData] = useState<RaceHistoryData | null>(null);
+  const [racelist, setRacelist] = useState<RaceData[] | null>(null);
+  const [raceEntrants, setRaceEntrants] = useState<RaceEntrantData>(() => {
+    const storedData: string | null = localStorage.getItem("raceEntrants");
+    return JSON.parse(storedData ?? "{}");
+  });
 
+  // Make API request for the racelist and 5 most recent races
   useEffect(() => {
     axios.get(`${BASE_BACKEND_URL}/racelist`)
-      .then((response) => setRaceHistoryData(response.data))
+      .then((response) => { 
+        setRacelist(response.data.racelist);
+        setRaceEntrants((prevRaceEntrants) => ({
+          ...prevRaceEntrants,
+          ...response.data.entrants
+        }));
+      })
       .catch((error) => console.error('Error fetching historic race data:', error));
   }, []);
 
-  if (raceHistoryData === null) {
+  // If raceEntrants changes, save to localstorage
+  useEffect(() => {
+    localStorage.setItem('raceEntrants', JSON.stringify(raceEntrants))
+  }, [raceEntrants]);
+
+  if (racelist === null) {
     return <Loading />;
   }
 
   return (
     <div className="main">
-      {raceHistoryData.racelist.map((race, index) => {
+      {racelist.map((race, index) => {
         return (
           <Table
             key={index}
             primaryHeading={[race.slug]}
             secondaryHeading={formatDatetime(race.ended_at)}
             variant={"raceResults"}
-            data={raceHistoryData.entrants[race.slug]}
+            data={raceEntrants[race.slug]}
           />
         );
       })};
