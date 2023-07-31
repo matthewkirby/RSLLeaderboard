@@ -10,11 +10,14 @@ interface RaceResultsData {
   discriminator: string | null,
   status: string,
   finish_time: string,
-  comment: string
+  comment: string,
+  delta: number
 }
 
 const RaceResultsRow: React.FC<RaceResultsData> = (props) => {
+  const isRatingGain: Boolean = props.delta > 0;
   const ordinal = getOrdinal(props.place);
+
   let result: string = "";
   if (props.status === "dnf") {
     result = "Forfeit";
@@ -30,7 +33,9 @@ const RaceResultsRow: React.FC<RaceResultsData> = (props) => {
       </span>
       {/* <span className={styles.comment}></span> */}
       <span className={styles.time}>{result}</span>
-      <span className={styles.delta}></span>
+      <span className={`${styles.delta} ${isRatingGain ? styles.positive : styles.negative}`}>
+        {(isRatingGain ? '+' : '') + `${Math.round(props.delta)}`}
+      </span>
     </React.Fragment>
   );  
 };

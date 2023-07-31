@@ -5,7 +5,7 @@ from collections import namedtuple
 
 RaceRecord = namedtuple('RaceRecord', ['slug', 'url', 'ended_at', 'season'])
 EntrantRecord = namedtuple('EntrantRecord', [
-    'name', 'discriminator', 'status', 'finish_time', 'place', 'comment'
+    'name', 'discriminator', 'status', 'finish_time', 'place', 'comment', 'delta'
 ])
 
 
@@ -29,10 +29,13 @@ def get_racelist_by_season(conn, season):
 
 
 def get_race_entrants(conn, slug):
+    delta = "100*(entrants.rating_after_mu - entrants.rating_before_mu \
+    - 2*(entrants.rating_after_sigma - entrants.rating_before_sigma))"
     cursor = conn.cursor()
-    cursor.execute("""
+    cursor.execute(f"""
         SELECT players.name, players.discriminator, entrants.status, 
-               entrants.finish_time, entrants.place, entrants.comment
+               entrants.finish_time, entrants.place, entrants.comment,
+               {delta}
         FROM entrants
         LEFT JOIN players ON entrants.user_id = players.userid
         WHERE entrants.race_slug=?
