@@ -30,6 +30,28 @@
   font-size: .9rem;
 }
 
+.button {
+  border-radius: 4px;
+  background-color: var(--element-emphasis-color);
+  border: none;
+  color: black;
+  font-weight: 900;
+  text-align: center;
+  font-size: 1em;
+  padding: 8px 3em 32px;
+  margin: -0.5em -1em 0 0;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.button:hover, .button:disabled {
+  background-color: #054a7f;
+}
+
+.button:disabled {
+  cursor: wait;
+}
+
 .row {
   display: flex;
   border-top: 1px solid #000000;

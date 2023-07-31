@@ -44,6 +44,18 @@ const RaceHistory: React.FC = () => {
     localStorage.setItem('raceEntrants', JSON.stringify(raceEntrants))
   }, [raceEntrants]);
 
+  // Get race entrants for a single race
+  function getRaceEntrantData(slug: string): void {
+    axios.get(`${BASE_BACKEND_URL}/race_entrants?slug=${slug}`)
+      .then((response) => {
+        setRaceEntrants((prevRaceEntrants) => ({
+          ...prevRaceEntrants,
+          ...response.data
+        }));
+      })
+      .catch((error) => console.error(`Error fetching entrant data for ${slug}:`, error));
+  };
+
   if (racelist === null) {
     return <Loading />;
   }
@@ -58,9 +70,10 @@ const RaceHistory: React.FC = () => {
             secondaryHeading={formatDatetime(race.ended_at)}
             variant={"raceResults"}
             data={raceEntrants[race.slug]}
+            callable={() => getRaceEntrantData(race.slug)}
           />
         );
-      })};
+      })}
     </div>
   );
 }
