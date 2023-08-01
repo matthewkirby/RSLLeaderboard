@@ -10,12 +10,13 @@ interface TableProps {
   primaryHeading: string[];
   secondaryHeading?: string;
   variant: TableVariants;
-  data: DataVariants[];
+  data: DataVariants[] | undefined;
+  parentDataLoading?: boolean;
   callable?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant, data, callable }) => {
-  const [loading, setLoading] = useState<boolean>(false);
+const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant, data, parentDataLoading, callable }) => {
+  const [loading, setLoading] = useState<boolean>(parentDataLoading ?? false);
 
   const SubComponent = rowComponents[variant];
   if (!SubComponent) {
@@ -45,7 +46,7 @@ const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant
   };
 
   const handleHeaderRender: handlerFunctionType = () => {
-    if(data === undefined) {
+    if(data === undefined && !parentDataLoading) {
       return (
         <React.Fragment>
           <h4 key={0} className={styles.primaryHeader}>{primaryHeading[0]}</h4>

@@ -38,6 +38,8 @@ const RaceHistory: React.FC = () => {
       })
       .catch((error) => console.error('Error fetching historic race data:', error));
   }, []);
+  const dataSuccess = racelist !== null;
+
 
   // If raceEntrants changes, save to localstorage
   useEffect(() => {
@@ -56,24 +58,33 @@ const RaceHistory: React.FC = () => {
       .catch((error) => console.error(`Error fetching entrant data for ${slug}:`, error));
   };
 
-  if (racelist === null) {
-    return <Loading />;
-  }
-
   return (
     <div className="main">
-      {racelist.map((race, index) => {
-        return (
-          <Table
-            key={index}
-            primaryHeading={[race.slug]}
-            secondaryHeading={formatDatetime(race.ended_at)}
-            variant={"raceResults"}
-            data={raceEntrants[race.slug]}
-            callable={() => getRaceEntrantData(race.slug)}
-          />
-        );
-      })}
+      {dataSuccess
+        ? racelist.map((race, index) => {
+          return (
+            <Table
+              key={index}
+              primaryHeading={[race.slug]}
+              secondaryHeading={formatDatetime(race.ended_at)}
+              variant={"raceResults"}
+              data={raceEntrants[race.slug]}
+              callable={() => getRaceEntrantData(race.slug)}
+            />
+          );
+        })
+        : [1,2,3,4,5,6].map((index) => {
+          return (
+            <Table
+              key={index}
+              primaryHeading={[`Race ${index}`]}
+              variant={"raceResults"}
+              data={undefined}
+              parentDataLoading={true}
+            />
+          );
+        })
+      }
     </div>
   );
 }

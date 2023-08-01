@@ -26,29 +26,31 @@ const Leaderboard: React.FC = () => {
       .then((response) => setLeaderboardData(response.data))
       .catch((error) => console.error('Error fetching leaderboard data:', error));
   }, []);
-
-  if (leaderboardData === null) {
-    return <Loading />;
-  }
+  const dataSuccess = leaderboardData !== null;
 
   return (
     <div className="main">
       <Table
         primaryHeading={[
-          `RSL Season ${leaderboardData.metadata.season}`
+          dataSuccess ? `RSL Season ${leaderboardData.metadata.season}` : "Leaderboard"
         ]}
         variant="qualified"
-        data={leaderboardData.qualified}
+        data={dataSuccess ? leaderboardData.qualified : undefined}
+        parentDataLoading={true}
       />
       <Table
         primaryHeading={[
           "Unranked Players",
-          `${leaderboardData.metadata.required_races} Total Finishes Required`
+          dataSuccess ? `${leaderboardData.metadata.required_races} Total Finishes Required` : ""
         ]}
         variant="unqualified"
-        data={leaderboardData.unqualified}
+        data={dataSuccess ? leaderboardData.unqualified : undefined}
+        parentDataLoading={true}
       />
-      <LastUpdateDate lastUpdateString={leaderboardData.metadata.datetime} />
+      {dataSuccess
+        ? <LastUpdateDate lastUpdateString={leaderboardData.metadata.datetime} />
+        : null
+      }
     </div>
   );
 };
