@@ -4,7 +4,7 @@ import axios from 'axios';
 import Table from "components/Table";
 import { RaceResultsData } from 'components/Table/Row';
 import { formatDatetime } from 'utils/formatting';
-import Loading from 'components/Loading';
+import { reportApiError } from 'utils/api';
 
 interface RaceData {
   slug: string,
@@ -36,7 +36,7 @@ const RaceHistory: React.FC = () => {
           ...response.data.entrants
         }));
       })
-      .catch((error) => console.error('Error fetching historic race data:', error));
+      .catch((error) => reportApiError(error));
   }, []);
   const dataSuccess = racelist !== null;
 
@@ -55,7 +55,7 @@ const RaceHistory: React.FC = () => {
           ...response.data
         }));
       })
-      .catch((error) => console.error(`Error fetching entrant data for ${slug}:`, error));
+      .catch((error) => reportApiError(error));
   };
 
   return (

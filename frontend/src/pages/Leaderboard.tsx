@@ -4,7 +4,7 @@ import axios from 'axios';
 import Table from "components/Table";
 import { QualifiedPlayerData, UnqualifiedPlayerData } from 'components/Table/Row';
 import LastUpdateDate from 'components/LastUpdateDate';
-import Loading from 'components/Loading';
+import { reportApiError } from 'utils/api';
 
 type LeaderboardData = {
   metadata: {
@@ -24,7 +24,7 @@ const Leaderboard: React.FC = () => {
   useEffect(() => {
     axios.get(`${BASE_BACKEND_URL}/leaderboard`)
       .then((response) => setLeaderboardData(response.data))
-      .catch((error) => console.error('Error fetching leaderboard data:', error));
+      .catch((error) => reportApiError(error));
   }, []);
   const dataSuccess = leaderboardData !== null;
 
