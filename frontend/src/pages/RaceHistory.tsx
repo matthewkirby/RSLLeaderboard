@@ -73,11 +73,11 @@ const RaceHistory: React.FC = () => {
             />
           );
         })
-        : [1,2,3,4,5,6].map((index) => {
+        : [0,1,2,3,4].map((index) => {
           return (
             <Table
               key={index}
-              primaryHeading={[`Race ${index}`]}
+              primaryHeading={[`Race ${index+1}`]}
               variant={"raceResults"}
               data={undefined}
               parentDataLoading={true}
