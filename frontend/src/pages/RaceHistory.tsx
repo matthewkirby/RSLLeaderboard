@@ -17,7 +17,7 @@ interface RaceEntrantData {
   [key: string]: RaceResultsData[]
 };
 
-const BASE_BACKEND_URL = 'http://localhost:5000/api';
+const BASE_BACKEND_URL = 'https://rsl.one/api';
 
 const RaceHistory: React.FC = () => {
   const [racelist, setRacelist] = useState<RaceData[] | null>(null);

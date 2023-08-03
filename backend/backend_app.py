@@ -5,7 +5,7 @@ from endpoints.racelist_endpoints import racelist_bp
 
 
 rsl_api = Flask(__name__)
-cors = CORS(rsl_api)
+#cors = CORS(rsl_api)
 
 
 # Register the endpoint blueprints

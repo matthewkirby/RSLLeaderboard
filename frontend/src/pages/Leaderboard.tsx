@@ -16,7 +16,7 @@ type LeaderboardData = {
   unqualified: UnqualifiedPlayerData[];
 };
 
-const BASE_BACKEND_URL = 'http://localhost:5000/api';
+const BASE_BACKEND_URL = 'https://rsl.one/api';
 
 const Leaderboard: React.FC = () => {
   const [leaderboardData, setLeaderboardData] = useState<LeaderboardData | null>(null);
