@@ -41,3 +41,8 @@ ufw enable
 # Set up the website directory
 mkdir -p /var/www/RSLLeaderboard
 chown -R www-data:www-data *
+
+# Set up the backend as a system process
+cp cfg_files/RSLLeaderboard.service /etc/systemd/system/
+systemctl start RSLLeaderboard
+systemctl enable RSLLeaderboard

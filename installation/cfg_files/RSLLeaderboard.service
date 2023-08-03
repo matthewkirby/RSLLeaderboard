@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve the RSLLeaderboard backend
+After=network.target
+
+[Service]
+User=xopar
+Group=www-data
+WorkingDirectory=/home/xopar/RSLLeaderboard/backend
+Environment="PATH=/home/xopar/RSLLeaderboard/venv/bin"
+ExecStart=/home/xopar/RSLLeaderboard/venv/bin/gunicorn --bind unix:RSLLeaderboard.sock backend_app:rsl_api
+
+[Install]
+WantedBy=multi-user.target
