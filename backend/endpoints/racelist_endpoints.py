@@ -13,24 +13,32 @@ def does_database_exist():
     return True
 
 
-def get_seasonal_races(season=current_season):
-    # Initial page load sends entrant info for most recent 5 races
-    conn = pub.create_connection()
-    racelist = pub.get_racelist_by_season(conn, season)
-    entrants = { race["slug"]: pub.get_race_entrants(conn, race["slug"]) for race in racelist[:5] }
-    response = { 'racelist': racelist, 'entrants': entrants }
-    conn.close()
-    return response
-
-
 @racelist_bp.route('/racelist', methods=['GET'])
 def get_racelist():
+    # Parse additional args
+    userid = request.args.get('player', type=str)
+    season = request.args.get('season', type=int)
+
+    # Setup
+    if not does_database_exist():
+        return jsonify({})
+    conn = pub.create_connection()
     data = {}
 
-    if does_database_exist():
-        data = get_seasonal_races()
+    # Make the appropriate racelist query
+    if userid is not None:
+        data['racelist'] = pub.get_racelist_by_player(conn, userid)
+    elif season is not None:
+        data['racelist'] = pub.get_racelist_by_season(conn, season)
+    else:
+        data['racelist'] = pub.get_racelist_all(conn)
 
+    # Get race entrant information
+    data['entrants'] = { race["slug"]: pub.get_race_entrants(conn, race["slug"]) for race in data['racelist'][:5] }
+
+    conn.close()
     return jsonify(data)
+
 
 @racelist_bp.route('/race_entrants', methods=['GET'])
 def get_race_entrants():
