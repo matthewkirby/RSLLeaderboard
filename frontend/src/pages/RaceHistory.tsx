@@ -77,7 +77,7 @@ const RaceHistory: React.FC = () => {
           return (
             <Table
               key={index}
-              primaryHeading={[`Race ${index+1}`]}
+              primaryHeading={[`Race Name Placeholder ${index+1}`]}
               variant={"raceResults"}
               data={undefined}
               parentDataLoading={true}
