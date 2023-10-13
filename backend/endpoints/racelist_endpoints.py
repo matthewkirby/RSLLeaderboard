@@ -26,12 +26,12 @@ def get_racelist():
     data = {}
 
     # Make the appropriate racelist query
+    where_clause = ""
     if userid is not None:
-        data['racelist'] = pub.get_racelist_by_player(conn, userid)
+        where_clause = f"WHERE e.user_id = \"{userid}\""
     elif season is not None:
-        data['racelist'] = pub.get_racelist_by_season(conn, season)
-    else:
-        data['racelist'] = pub.get_racelist_all(conn)
+        where_clause = f"WHERE rl.season = {season}"
+    data['racelist'] = pub.get_racelist(conn, where_clause)
 
     # Get race entrant information
     data['entrants'] = { race["slug"]: pub.get_race_entrants(conn, race["slug"]) for race in data['racelist'][:5] }
