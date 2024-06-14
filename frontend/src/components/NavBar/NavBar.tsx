@@ -17,7 +17,9 @@ const NavBar: React.FC = () => {
           </ul>
         </div>
       </header>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
     </React.Fragment>
   );
 }

@@ -29,7 +29,7 @@ const Leaderboard: React.FC = () => {
   const dataSuccess = leaderboardData !== null;
 
   return (
-    <div className="main">
+    <>
       <Table
         primaryHeading={[
           dataSuccess ? `RSL Season ${leaderboardData.metadata.season}` : "Leaderboard"
@@ -51,7 +51,7 @@ const Leaderboard: React.FC = () => {
         ? <LastUpdateDate lastUpdateString={leaderboardData.metadata.datetime} />
         : null
       }
-    </div>
+    </>
   );
 };
 

@@ -59,7 +59,7 @@ const RaceHistory: React.FC = () => {
   };
 
   return (
-    <div className="main">
+    <>
       {dataSuccess
         ? racelist.map((race, index) => {
           return (
@@ -85,7 +85,7 @@ const RaceHistory: React.FC = () => {
           );
         })
       }
-    </div>
+    </>
   );
 }
 
