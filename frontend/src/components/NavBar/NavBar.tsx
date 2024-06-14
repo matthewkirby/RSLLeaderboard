@@ -14,6 +14,7 @@ const NavBar: React.FC = () => {
           <ul className={styles.mainNav}>
             <NavButton destination="/" content="Leaderboard" />
             <NavButton destination="/races" content="Race History" />
+            <NavButton destination="/weights" content="Weights" />
           </ul>
         </div>
       </header>
