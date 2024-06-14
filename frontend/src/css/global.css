@@ -1,5 +1,7 @@
 /* global.css */
 *, ::before, ::after {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
 }
 
@@ -29,8 +31,8 @@ body {
   margin: 0;
 }
 
-.main {
-  padding: 0 var(--gap);
+main {
+  padding: var(--gap) var(--gap) 0 var(--gap);
   display: flex;
   flex-flow: row wrap;
   column-gap: var(--gap);
