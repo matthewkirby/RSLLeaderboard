@@ -29,7 +29,7 @@ const RaceHistory: React.FC = () => {
   // Make API request for the racelist and 5 most recent races
   useEffect(() => {
     axios.get(`${BASE_BACKEND_URL}/racelist`)
-      .then((response) => { 
+      .then((response) => {
         setRacelist(response.data.racelist);
         setRaceEntrants((prevRaceEntrants) => ({
           ...prevRaceEntrants,
