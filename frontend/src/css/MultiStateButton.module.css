@@ -1,0 +1,83 @@
+/* css/MultiStateButton.module.css */
+ul.multiStateButton {
+  min-width: 350px;
+  width: 70%;
+
+  display: flex;
+  list-style-type: none;
+  flex-flow: row nowrap;
+
+  text-align: center;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  font-weight: 500;
+
+  border: 1px black solid;
+  border-radius: var(--border-radius);
+  background-color: var(--element-border-color);
+}
+
+/* Static styling on the li tags */
+ul.multiStateButton > li {
+  padding: 1.5rem 0;
+  flex: 1 1 auto;
+  border-right: inherit;
+}
+
+ul.multiStateButton > li:first-child {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
+ul.multiStateButton > li:last-child {
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  border-right: none;
+}
+
+/* Relevant pseudoclasses for the li tags */
+ul.multiStateButton > li:hover {
+  color: var(--element-emphasis-color);
+  background-color: rgba(255, 255, 255, .10);
+}
+
+ul.multiStateButton > li.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--element-emphasis-color);
+}
+
+ul.multiStateButton > li.active:hover {
+  background-color: rgba(255, 255, 255, 0.28);
+}
+
+/* Some responsiveness */
+@media ( width <= 600px ) {
+  ul.multiStateButton {
+    min-width: 0;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  ul.multiStateButton > li {
+    padding: 1rem 0;
+    flex: 1 1 auto;
+    border-right: none;
+    border-bottom: inherit;
+  }
+
+  ul.multiStateButton > li:first-child {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    border-bottom-left-radius: 0;
+    border-right: 0;
+  }
+
+  ul.multiStateButton > li:last-child {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    border-left: 0;
+    border-bottom: none;
+  }
+  
+}
