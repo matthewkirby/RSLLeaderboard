@@ -29,16 +29,34 @@ def _fetch_raw_rsl_weights():
     return None
 
 
+def _summarize_weights(weights):
+  # This should exclude everything that is managed as
+  # a multiselect or a conditional
+  randomized, static = {}, {}
+  for name, options in weights.items():
+    total_weight = 0
+    for _, w in options.items():
+      total_weight += w
+
+    if total_weight < 1.5:
+      static[name] = [k for k,v in options.items() if v > 0.5][0]
+    else:
+      randomized[name] = options
+
+  return randomized, static
+
+
 def _parse_raw_rsl_weights(raw):
   global_settings = raw["options"]
   conditionals = global_settings.pop("conditionals")
   multiselects = raw["multiselect"]
-  weights = raw["weights"]
+  randomized, static = _summarize_weights(raw["weights"])
   output = {
     "global_settings": global_settings,
     "conditionals": conditionals,
     "multiselects": multiselects,
-    "weights": weights
+    "randomized": randomized,
+    "static": static
   }
   return output
 
