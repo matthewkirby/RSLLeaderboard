@@ -39,11 +39,28 @@ const Weights: React.FC = () => {
           onClick={setPreset}
         />
       </div>
-      {dataSuccess ?
+      {dataSuccess ? <>
       <WeightsTable
-        flavor={"globalValues"}
+        flavor="globalValues"
         data={weightsData.global_settings}
-      /> : ""}
+      />
+      <WeightsTable
+        flavor="conditionals"
+        data={{}}
+      />
+      <WeightsTable
+        flavor="multiselects"
+        data={{}}
+      />
+      <WeightsTable
+        flavor="shuffledSettings"
+        data={{}}
+      />
+      <WeightsTable
+        flavor="staticSettings"
+        data={{}}
+      />
+      </> : ""}
     </>
   );
 };

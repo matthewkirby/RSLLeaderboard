@@ -3,14 +3,16 @@ import styles from "css/WeightsTable.module.css";
 
 
 interface WeightsTableProps {
-  flavor: "globalValues" | "conditionals" | "multiselects";
+  flavor: "globalValues" | "conditionals" | "multiselects" | "shuffledSettings" | "staticSettings";
   data: any;
 }
 
 const headerTextLookup = {
-  "globalValues": "Global RSL Settings",
+  "globalValues": "Meta RSL Settings",
   "conditionals": "Conditionals",
-  "multiselects": "Multiselect Settings"
+  "multiselects": "Multiselect Settings",
+  "shuffledSettings": "Randomized Settings",
+  "staticSettings": "Static Settings"
 }
 
 
