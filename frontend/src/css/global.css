@@ -36,5 +36,5 @@ main {
   padding: var(--gap) var(--gap) 0 var(--gap);
   display: flex;
   flex-flow: row wrap;
-  column-gap: var(--gap);
+  gap: var(--gap);
 }
