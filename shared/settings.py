@@ -34,6 +34,7 @@ for _snum, _sdata in _season_dates.items():
 racelist_db_path = os.path.join(data_dir, _config.get('RacelistDatabase', 'database_file'))
 racelist_schema_path = os.path.join(project_root, "schema", _config.get('RacelistDatabase', 'schema_file'))
 leaderboard_file_path = os.path.join(data_dir, _config.get('LeaderboardData', 'data_file'))
+weights_file_path = os.path.join(data_dir, "rsl_weight_summary.json")
 
 # Define google sheets api config
 google_sheets_key_path = os.path.join(project_root, _config.get('RatedAsync', 'google_sheets_path'))
