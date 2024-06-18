@@ -1,4 +1,4 @@
-interface RowGlobalSettingsProps {
+interface SimpleRowProps {
   name: string;
   value: string | boolean | number | string[];
 }
@@ -29,7 +29,7 @@ const formatDisplayValue = (value: string | boolean | number | string[]) => {
 };
 
 
-const RowGlobalSettings: React.FC<RowGlobalSettingsProps> = ({ name, value }) => {
+const SimpleRow: React.FC<SimpleRowProps> = ({ name, value }) => {
 
   return (
     <li>
@@ -43,4 +43,4 @@ const RowGlobalSettings: React.FC<RowGlobalSettingsProps> = ({ name, value }) =>
   );
 };
 
-export default RowGlobalSettings;
+export default SimpleRow;

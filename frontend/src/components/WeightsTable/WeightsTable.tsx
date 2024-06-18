@@ -1,4 +1,4 @@
-import RowGlobalSettings from "./Row/RowGlobalSettings";
+import SimpleRow from "./Row/SimpleRow";
 import styles from "css/WeightsTable.module.css";
 
 
@@ -8,7 +8,7 @@ interface WeightsTableProps {
 }
 
 const headerTextLookup = {
-  "globalValues": "Meta RSL Settings",
+  "globalValues": "Meta Settings",
   "conditionals": "Conditionals",
   "multiselects": "Multiselect Settings",
   "shuffledSettings": "Randomized Settings",
@@ -21,7 +21,7 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data }) => {
   const buildRow = (key: string, value: any, i: number) => {
     switch(flavor) {
       case "globalValues":
-        return <RowGlobalSettings name={key} value={value} key={i} />
+        return <SimpleRow name={key} value={value} key={i} />
       case "conditionals":
         return <></>;
       case "multiselects":

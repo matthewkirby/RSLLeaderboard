@@ -33,7 +33,7 @@ body {
 }
 
 main {
-  padding: var(--gap) var(--gap) 0 var(--gap);
+  padding: var(--gap);
   display: flex;
   flex-flow: row wrap;
   gap: var(--gap);
