@@ -20,12 +20,14 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data }) => {
 
   const buildRow = (key: string, value: any, i: number) => {
     switch(flavor) {
-      case "globalValues":
-        return <SimpleRow name={key} value={value} key={i} />
       case "conditionals":
         return <></>;
       case "multiselects":
         return <></>;
+      case "shuffledSettings":
+        return <></>;
+      default:
+        return <SimpleRow name={key} value={value} key={i} />
     }
   };
 
