@@ -1,6 +1,8 @@
 import SimpleRow from "./Row/SimpleRow";
 import styles from "css/WeightsTable.module.css";
 import CollapsibleRow from "./Row/CollapsibleRow";
+import DetailsRow from "./Row/DetailsRow";
+import { IconContext } from "react-icons";
 
 
 interface WeightsTableProps {
@@ -37,12 +39,14 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data }) => {
   };
 
   return (
-    <ul className={styles.table}>
-      <li><h3>{headerTextLookup[flavor]}</h3></li>
-      {
-        Object.keys(data).map((key, i) => buildRow(key, data[key], i) )
-      }
-    </ul>
+    <IconContext.Provider value={{ size: "1em", className: styles.iconStyle }}>
+      <ul className={styles.table}>
+        <li><h3>{headerTextLookup[flavor]}</h3></li>
+        {
+          Object.keys(data).map((key, i) => buildRow(key, data[key], i) )
+        }
+      </ul>
+    </IconContext.Provider>
 
 
 
