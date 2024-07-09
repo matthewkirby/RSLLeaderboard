@@ -26,9 +26,9 @@
 }
 
 .positive {
-  color: #71C562;
+  color: var(--color-success)
 }
 
 .negative {
-  color: #c21807;
+  color: var(--color-error)
 }

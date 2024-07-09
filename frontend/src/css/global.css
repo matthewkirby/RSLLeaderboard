@@ -14,6 +14,9 @@
   --element-border-color: #151515;
   --element-emphasis-color: #22a7f0;
 
+  --color-error: #c21807;
+  --color-success: #71C562;
+
   /* Default gap between elements */
   --gap: 2em;
   --element-primary-width: 620px;
