@@ -21,6 +21,10 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data }) => {
 
   const buildRow = (key: string, value: any, i: number) => {
     switch(flavor) {
+      case "globalValues":
+        if ((key === "tricks" || key === "disabled_locations") && value.length > 0) {
+          return <CollapsibleRow name={key} options={value} key={i} altStyle />;
+        } else { return <SimpleRow name={key} value={value} key={i} />; }
       case "conditionals":
         return <></>;
       case "multiselects":
@@ -28,7 +32,7 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data }) => {
       case "shuffledSettings":
         return <CollapsibleRow name={key} options={value} key={i} />;
       default:
-        return <SimpleRow name={key} value={value} key={i} />
+        return <SimpleRow name={key} value={value} key={i} />;
     }
   };
 
