@@ -1,5 +1,6 @@
 import SimpleRow from "./Row/SimpleRow";
 import styles from "css/WeightsTable.module.css";
+import CollapsibleRow from "./Row/CollapsibleRow";
 
 
 interface WeightsTableProps {
@@ -25,7 +26,7 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data }) => {
       case "multiselects":
         return <></>;
       case "shuffledSettings":
-        return <></>;
+        return <CollapsibleRow name={key} options={value} key={i} />;
       default:
         return <SimpleRow name={key} value={value} key={i} />
     }

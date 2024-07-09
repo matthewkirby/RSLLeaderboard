@@ -13,7 +13,8 @@ type WeightsData = {
   global_settings: { [key:string]: string | number | boolean };
   conditionals: { [key:string]: string | number | boolean };
   multiselects: { [key:string]: string | number | boolean };
-  weights: { [key:string]: string | number | boolean };
+  randomized: { [key:string]: string | number | boolean };
+  static: { [key:string]: string | number | boolean };
 };
 
 
@@ -54,11 +55,11 @@ const Weights: React.FC = () => {
       />
       <WeightsTable
         flavor="shuffledSettings"
-        data={{}}
+        data={weightsData.randomized}
       />
       <WeightsTable
         flavor="staticSettings"
-        data={{}}
+        data={weightsData.static}
       />
       </> : ""}
     </>
