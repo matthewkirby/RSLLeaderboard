@@ -1,0 +1,33 @@
+.detailsRow {
+  cursor: pointer;
+}
+
+.detailsHeader {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;  /* Clean this line after declaration cleanup */
+}
+
+.detailsHeader > h5 {
+  margin-left: auto;
+}
+
+.detailsBody {
+  background-color: rgba(255, 255, 255, .05);
+  padding: 1rem;
+}
+
+.subText {
+  color: var(--font-color-secondary);
+}
+
+.disabledText {
+  color: #cf6679;
+}
+
+.detailsBody > .disabledText {
+  padding-bottom: 1rem;
+}

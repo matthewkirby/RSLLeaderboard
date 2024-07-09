@@ -28,7 +28,7 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data }) => {
           return <CollapsibleRow name={key} options={value} key={i} altStyle />;
         } else { return <SimpleRow name={key} value={value} key={i} />; }
       case "conditionals":
-        return <></>;
+        return <DetailsRow text={value.name} subText={value.opts} state={value.state} details={value.desc} />;
       case "multiselects":
         return <></>;
       case "shuffledSettings":

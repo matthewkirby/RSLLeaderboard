@@ -47,7 +47,7 @@ const Weights: React.FC = () => {
       />
       <WeightsTable
         flavor="conditionals"
-        data={{}}
+        data={weightsData.conditionals}
       />
       <WeightsTable
         flavor="multiselects"
