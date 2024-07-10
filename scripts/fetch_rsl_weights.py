@@ -88,14 +88,53 @@ def _parse_raw_rsl_weights(raw):
     "conditionals": conditionals,
     "multiselects": multiselects,
     "randomized": randomized,
-    "static": static
+    "static": static,
+    "overrides": {}
   }
   return output
+
+
+def __extract_section(bigdict, key):
+  return bigdict[key] if key in bigdict.keys() else {}
+
+
+def _attach_override(override_name, summary):
+  raw_override_file = _fetch_rsl_file(f"weights/{override_name}_override.json")
+  override = {}
+
+  # Parse overrides for options and conditionals
+  list_options = ["tricks", "disabled_locations", "misc_hints"]
+  raw_options = __extract_section(raw_override_file, "options")
+  for opt, value in raw_options.items():
+    if not (opt.startswith("extra_") or opt.startswith("remove_")):
+      override[opt] = value
+
+    # Handle extra_ and remove_ Refactor once refactor RSL script overrides. Conditionals dont have to be extra_ or remove_
+    else:
+      baseopt = "_".join(opt.split("_")[1:])
+      if baseopt in list_options:
+        baseval = summary["global_settings"][baseopt]
+        if opt.startswith("extra_"):
+          override[baseopt] = baseval + [ x for x in value if x not in baseval ]
+        else:
+          override[baseopt] = [ x for x in baseval if x not in value ]
+      else:
+        for deepopt, deepval in value.items():
+          override[deepopt] = deepval
+
+  # Parse overrides for weights
+  raw_weights = __extract_section(raw_override_file, "weights")
+  override.update(raw_weights)
+  raw_multiselect = __extract_section(raw_override_file, "multiselect")
+  override.update(raw_multiselect)
+  summary["overrides"][override_name] = override
 
 
 def fetch_rsl_weights():
   raw_weights = _fetch_rsl_file("weights/rsl_season6.json")
   output = _parse_raw_rsl_weights(raw_weights)
+  _attach_override("beginner", output)
+  _attach_override("intermediate", output)
   with open(_rsl_weights_path, 'w') as fpointer:
     json.dump(output, fpointer)
 
