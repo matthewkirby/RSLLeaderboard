@@ -13,15 +13,18 @@ type WeightsData = {
   global_settings: { [key:string]: string | number | boolean };
   conditionals: { [key:string]: string | number | boolean };
   multiselects: { [key:string]: string | number | boolean };
-  randomized: { [key:string]: string | number | boolean };
-  static: { [key:string]: string | number | boolean };
+  weights: { [key:string]: { [key:string]: number } };
+  overrides: {
+    beginner: { [key:string]: string | number | boolean };
+    intermediate: { [key:string]: string | number | boolean };
+  }
 };
 
 
 const Weights: React.FC = () => {
 
-  const [preset, setPreset] = useState(0)
-  const [weightsData, setWeightsData] = useState<WeightsData|null>(null)
+  const [preset, setPreset] = useState(0);
+  const [weightsData, setWeightsData] = useState<WeightsData|null>(null);
 
   useEffect(() => {
     axios.get(`${BASE_BACKEND_URL}/weights`)
@@ -29,6 +32,16 @@ const Weights: React.FC = () => {
       .catch((error) => reportApiError(error));
   }, []);
   const dataSuccess = weightsData !== null;
+
+  let override = {};
+  if (dataSuccess) {
+    if (preset === 1) {
+      override = weightsData["overrides"]["beginner"];
+    } else if (preset === 2) {
+      override = weightsData["overrides"]["intermediate"];
+    }
+  }
+
 
   return (
     <>
@@ -43,22 +56,27 @@ const Weights: React.FC = () => {
       <WeightsTable
         flavor="globalValues"
         data={weightsData.global_settings}
+        override={override}
       />
       <WeightsTable
         flavor="conditionals"
         data={weightsData.conditionals}
+        override={override}
       />
       <WeightsTable
         flavor="multiselects"
         data={weightsData.multiselects}
+        override={override}
       />
       <WeightsTable
         flavor="shuffledSettings"
-        data={weightsData.randomized}
+        data={weightsData.weights}
+        override={override}
       />
       <WeightsTable
         flavor="staticSettings"
-        data={weightsData.static}
+        data={weightsData.weights}
+        override={override}
       />
       </> : ""}
     </>

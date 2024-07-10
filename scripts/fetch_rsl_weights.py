@@ -39,6 +39,7 @@ def _summarize_conditionals(cond_weights):
   cond_list, settings_to_skip = [], []
   for base_cond_info in base_cond_info_list:
     cond = {
+      "id": base_cond_info["id"],
       "name": base_cond_info["id"].replace('_', ' '),
       "state": cond_weights[base_cond_info["id"]][0],
       "opts": "",
@@ -64,17 +65,9 @@ def _summarize_weights(weights, settings_to_skip):
   for name, options in weights.items():
     if name in settings_to_skip:
       continue
+    randomized[name] = options
 
-    total_weight = 0
-    for _, w in options.items():
-      total_weight += w
-
-    if total_weight < 1.5:
-      static[name] = [k for k,v in options.items() if v > 0.5][0]
-    else:
-      randomized[name] = options
-
-  return randomized, static
+  return randomized
 
 
 def _parse_raw_rsl_weights(raw):
@@ -82,13 +75,12 @@ def _parse_raw_rsl_weights(raw):
   cond_weights = global_settings.pop("conditionals")
   conditionals, settings_to_skip = _summarize_conditionals(cond_weights)
   multiselects = raw["multiselect"]
-  randomized, static = _summarize_weights(raw["weights"], settings_to_skip)
+  randomized = _summarize_weights(raw["weights"], settings_to_skip)
   output = {
     "global_settings": global_settings,
     "conditionals": conditionals,
     "multiselects": multiselects,
-    "randomized": randomized,
-    "static": static,
+    "weights": randomized,
     "overrides": {}
   }
   return output
