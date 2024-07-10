@@ -30,7 +30,6 @@ const Weights: React.FC = () => {
   }, []);
   const dataSuccess = weightsData !== null;
 
-
   return (
     <>
       <div style={{"display": "flex", "width": "100%", "justifyContent": "center"}}>
@@ -51,7 +50,7 @@ const Weights: React.FC = () => {
       />
       <WeightsTable
         flavor="multiselects"
-        data={{}}
+        data={weightsData.multiselects}
       />
       <WeightsTable
         flavor="shuffledSettings"
