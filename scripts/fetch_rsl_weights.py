@@ -3,45 +3,36 @@ import requests
 import settings
 import json
 
-_rsl_version_path = os.path.join(settings.data_dir, "rslversion.py")
+# Leaving this commented because I am not currently using it but its next on to do list
+
+# _rsl_version_path = os.path.join(settings.data_dir, "rslversion.py")
 _rsl_weights_path = os.path.join(settings.data_dir, "rsl_weight_summary.json")
 
-def fetch_rsl_version():
-  url = "https://raw.githubusercontent.com/matthewkirby/plando-random-settings/master/rslversion.py"
-  try:
-    response = requests.get(url)
-    response.raise_for_status()
-    with open(_rsl_version_path, 'w') as fpointer:
-      fpointer.write(response.text)
-  except requests.exceptions.RequestException as e:
-    print(f"Error fetching RSL Version File:\n${e}")
-    return None
+# def fetch_rsl_version():
+#   url = "https://raw.githubusercontent.com/matthewkirby/plando-random-settings/master/rslversion.py"
+#   try:
+#     response = requests.get(url)
+#     response.raise_for_status()
+#     with open(_rsl_version_path, 'w') as fpointer:
+#       fpointer.write(response.text)
+#   except requests.exceptions.RequestException as e:
+#     print(f"Error fetching RSL Version File:\n${e}")
+#     return None
 
 
-def _fetch_raw_rsl_weights():
-  url = "https://raw.githubusercontent.com/matthewkirby/plando-random-settings/master/weights/rsl_season6.json"
-  try:
-    response = requests.get(url)
-    response.raise_for_status()
-    return response.json()
-  except requests.exceptions.RequestException as e:
-    print(f"Error fetching RSL Weights File:\n${e}")
-    return None
-
-
-def _fetch_conditional_summary():
-  url = "https://raw.githubusercontent.com/matthewkirby/plando-random-settings/master/weights/conditional_summary.json"
+def _fetch_rsl_file(path):
+  url = f"https://raw.githubusercontent.com/matthewkirby/plando-random-settings/master/{path}"
   try:
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
   except requests.exceptions.RequestException as e:
-    print(f"Error fetching RSL Conditional Summary:\n${e}")
+    print(f"Error fetching {path}:\n${e}")
     return None
 
 
 def _summarize_conditionals(cond_weights):
-  base_cond_info_list = _fetch_conditional_summary()
+  base_cond_info_list = _fetch_rsl_file("weights/conditional_summary.json")
   if base_cond_info_list is None:
     return [], []
 
@@ -69,8 +60,6 @@ def _summarize_conditionals(cond_weights):
 
 
 def _summarize_weights(weights, settings_to_skip):
-  # This should exclude everything that is managed as
-  # a multiselect or a conditional
   randomized, static = {}, {}
   for name, options in weights.items():
     if name in settings_to_skip:
@@ -105,7 +94,7 @@ def _parse_raw_rsl_weights(raw):
 
 
 def fetch_rsl_weights():
-  raw_weights = _fetch_raw_rsl_weights()
+  raw_weights = _fetch_rsl_file("weights/rsl_season6.json")
   output = _parse_raw_rsl_weights(raw_weights)
   with open(_rsl_weights_path, 'w') as fpointer:
     json.dump(output, fpointer)
