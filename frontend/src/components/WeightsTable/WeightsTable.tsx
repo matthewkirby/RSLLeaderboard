@@ -24,33 +24,43 @@ const headerTextLookup = {
 
 const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data, override }) => {
 
-  const buildRow = (key: string, basevalue: any, i: number) => {
-    const value = override?.[key] ?? basevalue;
+  const buildRow = (key: string, baseValue: any, i: number) => {
+    const value = override?.[key] ?? baseValue;
+    const trueState = override[value.id]?.[0] ?? baseValue.state;
+    let isOverridden = false;
+    if (flavor === "conditionals") {
+      if (value.id in override) {
+        isOverridden = true;
+      }
+    } else if (key in override) {
+      isOverridden = true;
+    }
+
+
     switch(flavor) {
       case "globalValues":
         if ((key === "tricks" || key === "disabled_locations" || key === "misc_hints") && value.length > 0) {
-          return <CollapsibleRow name={key} options={value} key={i} altStyle />;
-        } else { return <SimpleRow name={key} value={value} key={i} />; }
+          return <CollapsibleRow name={key} options={value} isOverridden={isOverridden} altStyle key={i} />;
+        } else { return <SimpleRow name={key} value={value} isOverridden={isOverridden} key={i} />; }
       case "conditionals":
-        const trueState = override[value.id]?.[0] ?? basevalue.state;
-        return <DetailsRow text={value.name} subText={value.opts} state={trueState} details={value.desc} key={i} />;
+        return <DetailsRow text={value.name} subText={value.opts} state={trueState} details={value.desc} isOverridden={isOverridden} key={i} />;
       case "multiselects":
-        return <SimpleRow name={key} value={`${value}%`} key={i} />;
+        return <SimpleRow name={key} value={`${value}%`} isOverridden={isOverridden} key={i} />;
       case "shuffledSettings":
         if (Object.values(value as WeightType).reduce((partial, a) => partial + a, 0) > 1) {
-          return <CollapsibleRow name={key} options={value} key={i} />;
+          return <CollapsibleRow name={key} options={value} isOverridden={isOverridden} key={i} />;
         } else {
           return "";
         }
       case "staticSettings":
         if (Object.values(value as WeightType).reduce((partial, a) => partial + a, 0) < 1.5) {
           const soloValue = Object.keys(value).find(key => value[key] > 0);
-          return <SimpleRow name={key} value={soloValue as string} key={i} />;
+          return <SimpleRow name={key} value={soloValue as string} isOverridden={isOverridden} key={i} />;
         } else {
           return "";
         }
       default:
-        return <SimpleRow name={key} value={value} key={i} />;
+        return <SimpleRow name={key} value={value} key={i} isOverridden={isOverridden} />;
     }
   };
 

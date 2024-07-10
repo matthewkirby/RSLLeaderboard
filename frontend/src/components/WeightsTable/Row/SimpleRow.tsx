@@ -1,6 +1,7 @@
 interface SimpleRowProps {
   name: string;
   value: string | boolean | number | string[];
+  isOverridden?: boolean;
 }
 
 
@@ -29,10 +30,9 @@ const formatDisplayValue = (value: string | boolean | number | string[]) => {
 };
 
 
-const SimpleRow: React.FC<SimpleRowProps> = ({ name, value }) => {
-
+const SimpleRow: React.FC<SimpleRowProps> = ({ name, value, isOverridden = false }) => {
   return (
-    <li>
+    <li style={isOverridden ? {backgroundColor: "#102a43"} : {}}>
       <span>
         <h4>{name}</h4>
       </span>

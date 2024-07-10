@@ -9,10 +9,11 @@ interface DetailsRowProps {
   state: boolean;
   details: string;
   startsExpanded?: boolean;
+  isOverridden?: boolean;
 }
 
 
-const DetailsRow: React.FC<DetailsRowProps> = ({ text, subText, state, details, startsExpanded = false }) => {
+const DetailsRow: React.FC<DetailsRowProps> = ({ text, subText, state, details, startsExpanded = false, isOverridden = false }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(startsExpanded);
 
   let formattedText = text.toLowerCase().split(' ')
@@ -22,7 +23,7 @@ const DetailsRow: React.FC<DetailsRowProps> = ({ text, subText, state, details, 
 
   return (
     // DONE INLINE BECAUSE SPECIFICITY. IMPROVE CSS DEFINITIONS TO FIX THIS
-    <li style={{flexDirection: "column", padding: "0"}}
+    <li style={isOverridden ? {flexDirection: "column", padding: "0", backgroundColor: "#102a43"} : {flexDirection: "column", padding: "0"}}
       onClick={() => setIsExpanded(!isExpanded)}
       className={styles.detailsRow}
     >
