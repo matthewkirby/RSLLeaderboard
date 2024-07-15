@@ -19,7 +19,7 @@ SubmitData = namedtuple('SubmitData', ['name', 'url', 'number', 'time', 'vod_lin
 
 # Define base strings for all rated asyncs
 base_season_string = "season{}"
-base_ra_slug = "rated-async-{}"
+base_ra_slug = "season-{}-rated-async-{}"
 base_ra_datetime = "{}T04:00:00Z"
 
 
@@ -47,7 +47,7 @@ def save_ra_info(ra_info):
 def add_ra_info(season_number, race_number, race_date, force_add):
     ra_info = load_ra_info()
     season_string = base_season_string.format(season_number)
-    race_slug = base_ra_slug.format(race_number)
+    race_slug = base_ra_slug.format(season_number, race_number)
     race_datetime = base_ra_datetime.format(race_date)
 
     # Ensure season exists in metadata record
@@ -124,7 +124,8 @@ def combine_request_submit_data(requests, submits):
         entrants[userid].media = row.vod_link
 
     ruleset_filtered = {key: entrants[key] for key in entrants.keys() if entrants[key].ruleset == "Standard"}
-    return ruleset_filtered
+    alt_ruleset_players = {key: entrants[key] for key in entrants.keys() if entrants[key].ruleset != "Standard"}
+    return ruleset_filtered, alt_ruleset_players
 
 
 def compute_placements(race_data):
@@ -142,7 +143,7 @@ def compute_placements(race_data):
 
 
 def add_new_race(season_number, race_number, race_date, force_add):
-    race_slug = base_ra_slug.format(race_number)
+    race_slug = base_ra_slug.format(season_number, race_number)
 
     # If --force, delete existing db data for the race
     conn = dba.create_connection(settings.racelist_db_path)
@@ -188,7 +189,7 @@ def update_race_data(season_number, refresh):
         submits = filter_google_data(submit_data, {'number': race_info['number']}, {'finished': 'Yes'})
 
         # Calculate results
-        joint_data = combine_request_submit_data(requests, submits)
+        joint_data, alt_ruleset_data = combine_request_submit_data(requests, submits)
         race_results = compute_placements(joint_data)
 
         # Record the race
@@ -204,7 +205,7 @@ def update_race_data(season_number, refresh):
 
 
 def delete_race(season_number, race_number, dbonly):
-    race_slug = base_ra_slug.format(race_number)
+    race_slug = base_ra_slug.format(season_number, race_number)
     conn = dba.create_connection(settings.racelist_db_path)
     dba.delete_race(conn, race_slug)
     if not dbonly:
@@ -231,7 +232,7 @@ if __name__ == "__main__":
     primary_arg_group.add_argument("--delete", action="store_true", help="Delete a race.")
 
     # Mode specific args
-    parser.add_argument("-s", "--season", type=int, default=settings.current_season, help="Seasonal data to access.")
+    parser.add_argument("-s", "--season", default=settings.current_season, help="Seasonal data to access.")
     parser.add_argument("-n", "--number", type=int, help="Which rated async to modify.")
     parser.add_argument("-d", "--date", type=validate_date, help="Recorded date for a new race.")
     parser.add_argument("--force", action="store_true", help="Add the race metadata even if the race already exists.")

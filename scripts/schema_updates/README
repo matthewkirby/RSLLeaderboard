@@ -1,0 +1,3 @@
+The scripts in this directory exist to update the database between versions and provide a record or history of the changes. 
+
+DO NOT RUN THESE UNLESS YOU KNOW WHAT YOU ARE DOING AND INTEND TO MAKE MAJOR CHANGES TO THE DATABASE
