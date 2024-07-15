@@ -99,7 +99,7 @@ def fetch_all_races(conn, season, columns=None):
         select_columns = ", ".join(columns)
 
     # Build the WHERE clause for the season
-    where_clause = f"WHERE season = {season}"
+    where_clause = f"WHERE season = '{season}'"
 
     c.execute(f"SELECT {select_columns} FROM racelist {where_clause} ORDER BY ended_at ASC")
     races = c.fetchall()
@@ -161,14 +161,15 @@ def update_players(conn, playerlist):
             player.userid
         ))
 
+# [entry.rtgg_style_output() for entry in race_results.values()]
 
 def insert_entrant(conn, race_data, entrant):
     print(f"\tAdding {entrant['user']['id']} to {race_data['slug']}.")
     c = conn.cursor()
 
     insert_sql = """
-        INSERT INTO entrants (race_slug, user_id, status, finish_time, place, comment)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO entrants (race_slug, user_id, status, finish_time, place, comment, include, ruleset)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     """
 
     c.execute(insert_sql, (
@@ -177,7 +178,9 @@ def insert_entrant(conn, race_data, entrant):
         entrant['status']['value'],
         entrant['finish_time'],
         entrant['place'],
-        entrant['comment']
+        entrant['comment'],
+        entrant['include'] if 'include' in entrant.keys() else True,
+        entrant['ruleset'] if 'ruleset' in entrant.keys() else 'Standard'
     ))
 
 

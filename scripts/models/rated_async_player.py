@@ -1,11 +1,11 @@
 from tools import convert_duration_ISO8601
 
 class RatedAsyncPlayer:
-    def __init__(self, fullname, userid, ruleset):
+    def __init__(self, fullname, userid, ruleset, include=None):
         self.name = fullname.split("#")[0].strip()
         self.discriminator = None
         self.userid = userid
-        self.ruleset = ruleset # Usage not yet implemented
+        self.ruleset = ruleset
 
         if len(fullname.split("#")) > 1:
             self.discriminator = fullname.split("#")[1].strip()
@@ -13,8 +13,10 @@ class RatedAsyncPlayer:
         self.done = False
         self.time = None
         self.isoduration = None
+        self.include = ruleset == "Standard" if include is None else include
         self.media = None # Usage not yet implemented
         self.place = None
+
 
     def rtgg_style_output(self):
         if self.done:
@@ -36,6 +38,8 @@ class RatedAsyncPlayer:
             },
             'finish_time': self.isoduration,
             'place': self.place,
-            'comment': None
+            'comment': None,
+            'include': self.include,
+            'ruleset': self.ruleset
         }
         return entrant

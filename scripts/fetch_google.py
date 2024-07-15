@@ -123,9 +123,7 @@ def combine_request_submit_data(requests, submits):
         entrants[userid].time = row.time
         entrants[userid].media = row.vod_link
 
-    ruleset_filtered = {key: entrants[key] for key in entrants.keys() if entrants[key].ruleset == "Standard"}
-    alt_ruleset_players = {key: entrants[key] for key in entrants.keys() if entrants[key].ruleset != "Standard"}
-    return ruleset_filtered, alt_ruleset_players
+    return entrants
 
 
 def compute_placements(race_data):
@@ -133,7 +131,7 @@ def compute_placements(race_data):
         h, m, s = map(int, entry[1].split(':'))
         return h*3600 + m*60 + s
 
-    finish_times = [[row.userid, row.time] for row in race_data.values() if row.done]
+    finish_times = [[row.userid, row.time] for row in race_data.values() if row.done and row.include]
     sorted_times = sorted(finish_times, key=time_to_seconds)
     for i in range(len(sorted_times)):
         userid = sorted_times[i][0]
@@ -189,7 +187,7 @@ def update_race_data(season_number, refresh):
         submits = filter_google_data(submit_data, {'number': race_info['number']}, {'finished': 'Yes'})
 
         # Calculate results
-        joint_data, alt_ruleset_data = combine_request_submit_data(requests, submits)
+        joint_data = combine_request_submit_data(requests, submits)
         race_results = compute_placements(joint_data)
 
         # Record the race
