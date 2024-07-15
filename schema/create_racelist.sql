@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS entrants (
   rating_before_sigma REAL,               -- Sigma value for rating before the race
   rating_after_mu REAL,                   -- Mu value for rating after the race
   rating_after_sigma REAL,                -- Sigma value for rating after the race
+  include BOOLEAN DEFAULT 1,              -- Whether to include the entry during race results calculation and scoring
+  ruleset TEXT DEFAULT 'Standard',        -- Set the ruleset that the player used for the race
   FOREIGN KEY (race_slug) REFERENCES racelist (slug)  -- Foreign key constraint
   FOREIGN KEY (user_id) REFERENCES players (userid)   -- Foreign key constraint
 );

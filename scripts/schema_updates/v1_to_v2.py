@@ -45,4 +45,27 @@ def change_column_type():
         conn.close()
 
 
-# change_column_type()
+def add_column(table_name, column_name, column_type, column_default):
+    conn = create_connection(settings.racelist_db_path)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(f"PRAGMA table_info({table_name})")
+        columns = cursor.fetchall()
+        column_names = [col[1] for col in columns]
+        if column_name not in column_names:
+            print("Adding column:", column_name)
+            cursor.execute(f'ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type} DEFAULT {column_default};')
+        else:
+            print(f"{column_name} already exists.")
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        conn.close()
+
+
+
+change_column_type()
+add_column("entrants", "include", "BOOLEAN", 1)
+add_column("entrants", "ruleset", "TEXT", "Standard")
