@@ -3,13 +3,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Table from "components/Table";
 import { RaceResultsData } from 'components/Table/Row';
-import { formatDatetime } from 'utils/formatting';
+import { formatDatetime, seasonFormatting } from 'utils/formatting';
 import { reportApiError } from 'utils/api';
 
 interface RaceData {
   slug: string,
   ended_at: string,
-  season: number,
+  season: string,
   url: string
 };
 
@@ -18,6 +18,13 @@ interface RaceEntrantData {
 };
 
 const BASE_BACKEND_URL = process.env.REACT_APP_BACKEND_ROOT;
+
+const formatRASlugs = (slug: string) => {
+  if (slug.split('-')[0] === "season")
+    return slug.split('-').slice(2).join('-');
+  else
+    return slug;
+};
 
 const RaceHistory: React.FC = () => {
   const [racelist, setRacelist] = useState<RaceData[] | null>(null);
@@ -65,8 +72,8 @@ const RaceHistory: React.FC = () => {
           return (
             <Table
               key={index}
-              primaryHeading={[race.slug]}
-              secondaryHeading={formatDatetime(race.ended_at)}
+              primaryHeading={[formatRASlugs(race.slug)]}
+              secondaryHeading={[`(${seasonFormatting(race.season)})`, formatDatetime(race.ended_at)]}
               variant={"raceResults"}
               data={raceEntrants[race.slug]}
               callable={() => getRaceEntrantData(race.slug)}

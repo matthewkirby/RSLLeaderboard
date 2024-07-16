@@ -8,7 +8,7 @@ type handlerFunctionType = () => React.ReactNode;
 
 interface TableProps {
   primaryHeading: string[];
-  secondaryHeading?: string;
+  secondaryHeading?: string[];
   variant: TableVariants;
   data: DataVariants[] | undefined;
   parentDataLoading?: boolean;
@@ -49,7 +49,8 @@ const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant
     if(data === undefined && !parentDataLoading) {
       return (
         <React.Fragment>
-          <h4 key={0} className={styles.primaryHeader}>{primaryHeading[0]}</h4>
+          <h4 className={styles.primaryHeader}>{primaryHeading[0]}</h4>
+          {secondaryHeading !== undefined  ? <span className={styles.secondaryHeader}>{secondaryHeading[0]}</span> : null}
           <button type="button" className={styles.button} onClick={onClick} disabled={loading}><span>Expand</span></button>
         </React.Fragment>
       );
@@ -57,7 +58,10 @@ const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant
       return (
         <React.Fragment>
           {primaryHeading.map((text, index) => <h4 key={index} className={styles.primaryHeader}>{text}</h4>)}
-          {secondaryHeading !== undefined ? <span className={styles.secondaryHeader}>{secondaryHeading}</span> : null}
+          {secondaryHeading !== undefined
+            ? secondaryHeading.map((text, index) => <span key={index} className={styles.secondaryHeader}>{text}</span>)
+            : null
+          }
         </React.Fragment>
       );
     }

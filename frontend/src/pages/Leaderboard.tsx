@@ -5,10 +5,11 @@ import Table from "components/Table";
 import { QualifiedPlayerData, UnqualifiedPlayerData } from 'components/Table/Row';
 import LastUpdateDate from 'components/LastUpdateDate';
 import { reportApiError } from 'utils/api';
+import { seasonFormatting } from 'utils/formatting';
 
 type LeaderboardData = {
   metadata: {
-    season: number;
+    season: string;
     datetime: string;
     required_races: number;
   };
@@ -32,7 +33,7 @@ const Leaderboard: React.FC = () => {
     <>
       <Table
         primaryHeading={[
-          dataSuccess ? `RSL Season ${leaderboardData.metadata.season}` : "Leaderboard"
+          dataSuccess ? `RSL ${seasonFormatting(leaderboardData.metadata.season)}` : "Leaderboard"
         ]}
         variant="qualified"
         data={dataSuccess ? leaderboardData.qualified : undefined}

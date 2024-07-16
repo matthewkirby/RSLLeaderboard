@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from 'css/OrdinalColors.module.css';
 import { parse, Duration } from "tinyduration";
 
@@ -39,4 +38,14 @@ export function formatDatetime(datetime: string): string {
   const dateObject: Date = new Date(datetime);
   const dateString: string = dateObject.toLocaleString([], {dateStyle: 'medium', timeStyle: 'long'});
   return dateString;
+};
+
+export function seasonFormatting(season: string): string {
+  if (season.slice(0,2) === "pr") {
+    return `S${season.slice(-1)} Preseason`;
+  } else if (season.slice(0,2) === "po") {
+    return `S${season.slice(-1)} Postseason`;
+  } else {
+    return `Season ${season}`;
+  }
 };
