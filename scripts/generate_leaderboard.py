@@ -6,7 +6,7 @@ from fetch_racetime import get_new_racetime_races, reset_racetime_data
 from leaderboard import summarize_seasonal_leaderboard
 
 
-def main():
+def generate_leaderboard():
     # If required, set up the environment
     dba.initialize_databases()
 
@@ -28,4 +28,4 @@ if __name__ == "__main__":
         dba.delete_databases()
         reset_racetime_data()
     else:
-        main()
+        generate_leaderboard()

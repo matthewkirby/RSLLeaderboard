@@ -41,6 +41,7 @@ fi
 source $VENV_FILE
 pip install -r requirements.txt
 echo "$(pwd)/shared" > venv/lib/python3.11/site-packages/shared.pth
+echo "$(pwd)/scripts" > venv/lib/python3.11/site-packages/scripts.pth
 
 # Install Node Version Manager
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash

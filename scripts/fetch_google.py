@@ -149,7 +149,8 @@ def add_new_race(season_number, race_number, datetime_string, force_add):
 
     # Add the new metadata
     add_ra_info(season_number, race_number, datetime_string, force_add)
-    update_race_data(season_number, refresh=False)
+    nnew = update_race_data(season_number, refresh=False)
+    return nnew
 
 
 def update_race_data(season_number, refresh):
@@ -168,7 +169,7 @@ def update_race_data(season_number, refresh):
     # Exit if no races to download
     if len(race_download_queue) == 0:
         print("No new race data to fetch.")
-        return
+        return 0
 
     # Download the data
     google_client = create_connection_google()
@@ -198,6 +199,7 @@ def update_race_data(season_number, refresh):
 
     google_client.session.close()
     conn.close()
+    return len(race_download_queue)
 
 
 def delete_race(season_number, race_number, dbonly):
