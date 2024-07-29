@@ -2,7 +2,7 @@
 import os
 import json
 import argparse
-import datetime
+from datetime import datetime, timezone
 from collections import namedtuple
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -20,7 +20,6 @@ SubmitData = namedtuple('SubmitData', ['name', 'url', 'number', 'time', 'vod_lin
 # Define base strings for all rated asyncs
 base_season_string = "season{}"
 base_ra_slug = "season-{}-rated-async-{}"
-base_ra_datetime = "{}T04:00:00Z"
 
 
 def create_connection_google():
@@ -44,11 +43,10 @@ def save_ra_info(ra_info):
         json.dump(ra_info, fpointer, indent=4)
 
 
-def add_ra_info(season_number, race_number, race_date, force_add):
+def add_ra_info(season_number, race_number, datetime_string, force_add):
     ra_info = load_ra_info()
     season_string = base_season_string.format(season_number)
     race_slug = base_ra_slug.format(season_number, race_number)
-    race_datetime = base_ra_datetime.format(race_date)
 
     # Ensure season exists in metadata record
     if season_string not in ra_info.keys():
@@ -62,7 +60,7 @@ def add_ra_info(season_number, race_number, race_date, force_add):
     # Add the new entry
     ra_info[season_string][race_slug] = {
         'number': race_number,
-        'finish_time': race_datetime
+        'finish_time': datetime_string
     }
 
     # Save the metadata file
@@ -140,7 +138,7 @@ def compute_placements(race_data):
     return race_data
 
 
-def add_new_race(season_number, race_number, race_date, force_add):
+def add_new_race(season_number, race_number, datetime_string, force_add):
     race_slug = base_ra_slug.format(season_number, race_number)
 
     # If --force, delete existing db data for the race
@@ -150,7 +148,7 @@ def add_new_race(season_number, race_number, race_date, force_add):
     conn.close()
 
     # Add the new metadata
-    add_ra_info(season_number, race_number, race_date, force_add)
+    add_ra_info(season_number, race_number, datetime_string, force_add)
     update_race_data(season_number, refresh=False)
 
 
@@ -211,15 +209,6 @@ def delete_race(season_number, race_number, dbonly):
     conn.close()
 
 
-def validate_date(date_str):
-    # Check if the date string has the correct format (YYYY-MM-DD)
-    try:
-        datetime.datetime.strptime(date_str, "%Y-%m-%d")
-        return date_str
-    except ValueError:
-        raise argparse.ArgumentTypeError("Invalid date format. Expected YYYY-MM-DD.")
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Download rated async data from google sheets")
 
@@ -232,7 +221,6 @@ if __name__ == "__main__":
     # Mode specific args
     parser.add_argument("-s", "--season", default=settings.current_season, help="Seasonal data to access.")
     parser.add_argument("-n", "--number", type=int, help="Which rated async to modify.")
-    parser.add_argument("-d", "--date", type=validate_date, help="Recorded date for a new race.")
     parser.add_argument("--force", action="store_true", help="Add the race metadata even if the race already exists.")
     parser.add_argument("--dbonly", action="store_true", help="Only delete the database entry and leave metadata.")
     args = parser.parse_args()
@@ -242,10 +230,11 @@ if __name__ == "__main__":
         print(f"Refreshing Season {args.season} data.")
         update_race_data(args.season, refresh=True)
     elif args.new:
-        if args.number is None or args.date is None:
-            parser.error("Both -n and -d are required to add a new race.")
+        if args.number is None:
+            parser.error("-n is required to add a new race.")
         print(f"Adding Season {args.season} Rated Async {args.number}.")
-        add_new_race(args.season, args.number, args.date, args.force)
+        datetime_string = datetime.now(timezone.utc).strftime(r"%Y-%m-%dT%H:%M:%SZ")
+        add_new_race(args.season, args.number, datetime_string, args.force)
     elif args.delete:
         if args.number is None:
             parser.error("-n is required when deleting a seed.")
