@@ -46,3 +46,6 @@ _idconfig = ConfigParser()
 _idconfig.read(spreadsheet_ids_path)
 sheets_id_ra_request = _idconfig.get('RatedAsync', 'request_form')
 sheets_id_ra_submit = _idconfig.get('RatedAsync', 'submit_form')
+
+# Load the API key for RSLBot
+rslbot_api_key = _idconfig.get('RSLBot', 'api_key')

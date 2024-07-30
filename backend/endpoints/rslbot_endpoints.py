@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from datetime import datetime, timezone
 
+from endpoints.security import api_required
 from settings import current_season
 from fetch_google import add_new_race, delete_race
 from generate_leaderboard import generate_leaderboard
@@ -9,6 +10,7 @@ from generate_leaderboard import generate_leaderboard
 rslbot_blueprint = Blueprint('rslbot', __name__)
 
 @rslbot_blueprint.route('/record_rated_async', methods=['POST'])
+@api_required
 def record_rated_async():
     async_number = request.get_json().get("async_number", None)
     if async_number is None:
@@ -26,6 +28,7 @@ def record_rated_async():
 
 
 @rslbot_blueprint.route('/delete_rated_async', methods=['POST'])
+@api_required
 def delete_rated_async():
     async_number = request.get_json().get("async_number", None)
     if async_number is None:
@@ -37,6 +40,7 @@ def delete_rated_async():
 
 
 @rslbot_blueprint.route('/refresh_rated_async', methods=['POST'])
+@api_required
 def refresh_rated_async():
     async_number = request.get_json().get("async_number", None)
     if async_number is None:

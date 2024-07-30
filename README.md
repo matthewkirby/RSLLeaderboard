@@ -14,6 +14,9 @@ The following secrets should be defined:
 [RatedAsync]
 request_form = <google sheets id>
 submit_form = <google sheets id>
+
+[RSLBot]
+api_key = <RSLBot API key>
 ```
 
 `keys/google_sheets.json`: Google credentials file
