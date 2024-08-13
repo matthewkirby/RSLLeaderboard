@@ -107,7 +107,8 @@ def parse_userid(url):
         "TrenteR": "rVwLN8B8Y43Pa52R",
         "tanjo3": "07QXz83KQkWeZDjr"
     }
-    userid = url.split('/')[-1]
+    idx = url.find("user")
+    userid = url[idx+5:].split('/')[0]
     if userid in patreon_lut.keys():
         userid = patreon_lut[userid]
     return userid
