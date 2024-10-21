@@ -21,7 +21,7 @@ _rsl_weights_path = os.path.join(settings.data_dir, "rsl_weight_summary.json")
 
 
 def _fetch_rsl_file(path):
-  url = f"https://raw.githubusercontent.com/matthewkirby/plando-random-settings/master/{path}"
+  url = f"https://raw.githubusercontent.com/matthewkirby/plando-random-settings/release/{path}"
   try:
     response = requests.get(url)
     response.raise_for_status()
