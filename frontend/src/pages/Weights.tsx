@@ -6,7 +6,7 @@ import { reportApiError } from 'utils/api';
 import WeightsTable from 'components/WeightsTable/WeightsTable';
 
 
-const buttonStates = ["rsl", "beginner", "intermediate"];
+const buttonStates = ["rsl", "lite", "intermediate"];
 const BASE_BACKEND_URL = process.env.REACT_APP_BACKEND_ROOT;
 
 type WeightsData = {
