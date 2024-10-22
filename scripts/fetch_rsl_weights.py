@@ -7,6 +7,7 @@ import json
 
 # _rsl_version_path = os.path.join(settings.data_dir, "rslversion.py")
 _rsl_weights_path = os.path.join(settings.data_dir, "rsl_weight_summary.json")
+_alphabet = 'abcdefghijklmnopqrstuvwxyz'
 
 # def fetch_rsl_version():
 #   url = "https://raw.githubusercontent.com/matthewkirby/plando-random-settings/master/rslversion.py"
@@ -42,17 +43,17 @@ def _summarize_conditionals(cond_weights):
       "id": base_cond_info["id"],
       "name": base_cond_info["id"].replace('_', ' '),
       "state": cond_weights[base_cond_info["id"]][0],
-      "opts": "",
+      "defaults": [],
+      "optstr": "",
       "desc": base_cond_info["description"]
     }
 
     weights = cond_weights[base_cond_info["id"]][1:]
     if len(weights) > 0:
-      str_opts = [ str(w) for w in weights ]
-      str_opts[0] = str_opts[0] + '%'
-      cond["opts"] = f'({", ".join(str_opts)})'
-      cond["desc"] = base_cond_info["description"].format(*str_opts)
-
+      defaults = [ str(w) for w in weights ]
+      cond["defaults"] = defaults
+      cond["optstr"] = '(' + ', '.join(['{}' for i in range(len(defaults))]) + ')'
+      
     if cond["state"]:
       settings_to_skip += base_cond_info["settings_to_skip"]
     cond_list.append(cond)
@@ -98,7 +99,11 @@ def _attach_override(override_name, summary):
   list_options = ["tricks", "disabled_locations", "misc_hints"]
   raw_options = __extract_section(raw_override_file, "options")
   for opt, value in raw_options.items():
-    if not (opt.startswith("extra_") or opt.startswith("remove_")):
+    if opt == "conditionals":
+      for deepopt, deepval in value.items():
+        override[deepopt] = deepval
+
+    elif not (opt.startswith("extra_") or opt.startswith("remove_")):
       override[opt] = value
 
     # Handle extra_ and remove_ Refactor once refactor RSL script overrides. Conditionals dont have to be extra_ or remove_

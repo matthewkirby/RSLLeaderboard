@@ -43,7 +43,12 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data, override }) =
           return <CollapsibleRow name={key} options={value} isOverridden={isOverridden} altStyle key={i} />;
         } else { return <SimpleRow name={key} value={value} isOverridden={isOverridden} key={i} />; }
       case "conditionals":
-        return <DetailsRow text={value.name} subText={value.opts} state={trueState} details={value.desc} isOverridden={isOverridden} key={i} />;
+        let subText = value.optstr;
+        let condParams = isOverridden ? override[value.id].slice(1) : value.defaults;
+        for (let i = 0; i < condParams.length; i++) {
+          subText = subText.replace('{}', condParams[i])
+        }
+        return <DetailsRow text={value.name} subText={subText} state={trueState} details={value.desc} isOverridden={isOverridden} key={i} />;
       case "multiselects":
         return <SimpleRow name={key} value={`${value}%`} isOverridden={isOverridden} key={i} />;
       case "shuffledSettings":
