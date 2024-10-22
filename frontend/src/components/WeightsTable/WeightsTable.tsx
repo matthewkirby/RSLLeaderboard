@@ -21,6 +21,17 @@ const headerTextLookup = {
   "staticSettings": "Static Settings"
 }
 
+const formatStringParams = (template: string, params: string[], defaultParams: string[]) => {
+  let formattedString = template;
+  for (let i = 0; i < defaultParams.length; i++) {
+    if (i < params.length) {
+      formattedString = formattedString.replace('{}', params[i])
+    } else {
+      formattedString = formattedString.replace('{}', defaultParams[i])
+    }
+  }
+  return formattedString;
+};
 
 const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data, override }) => {
 
@@ -43,12 +54,10 @@ const WeightsTable: React.FC<WeightsTableProps> = ({ flavor, data, override }) =
           return <CollapsibleRow name={key} options={value} isOverridden={isOverridden} altStyle key={i} />;
         } else { return <SimpleRow name={key} value={value} isOverridden={isOverridden} key={i} />; }
       case "conditionals":
-        let subText = value.optstr;
         let condParams = isOverridden ? override[value.id].slice(1) : value.defaults;
-        for (let i = 0; i < condParams.length; i++) {
-          subText = subText.replace('{}', condParams[i])
-        }
-        return <DetailsRow text={value.name} subText={subText} state={trueState} details={value.desc} isOverridden={isOverridden} key={i} />;
+        const subText = formatStringParams(value.optstr, condParams, value.defaults);
+        const fullDesc = formatStringParams(value.desc, condParams, value.defaults);
+        return <DetailsRow text={value.name} subText={subText} state={trueState} details={fullDesc} isOverridden={isOverridden} key={i} />;
       case "multiselects":
         return <SimpleRow name={key} value={`${value}%`} isOverridden={isOverridden} key={i} />;
       case "shuffledSettings":
