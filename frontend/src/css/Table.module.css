@@ -65,3 +65,14 @@
   background-color: var(--element-bg-color-hover);
   margin: 0 0 0 -5px;
 }
+
+a.rtlink {
+  color: var(--font-color-main)
+}
+
+a.rtlink:hover {
+  color: white;
+  border: dashed var(--element-emphasis-color)  1px;
+  padding: 2px;
+  margin: -3px;
+}

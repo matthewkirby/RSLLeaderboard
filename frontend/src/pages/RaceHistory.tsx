@@ -77,6 +77,7 @@ const RaceHistory: React.FC = () => {
               variant={"raceResults"}
               data={raceEntrants[race.slug]}
               callable={() => getRaceEntrantData(race.slug)}
+              url={race.url}
             />
           );
         })
