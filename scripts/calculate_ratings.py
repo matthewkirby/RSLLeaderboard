@@ -16,7 +16,9 @@ def load_seasonal_data(season, conn):
     for race in races:
         slug, end_time = race
         results = dba.fetch_entrants_by_race(conn, slug, columns=['id', 'user_id', 'place', 'include'])
-        racelist.append(Race(slug, end_time, results))
+        race = Race(slug, end_time, results)
+        if race.record:
+            racelist.append(race)
     racelist.sort(key=lambda race: race.end_time)
 
     return playerlist, racelist

@@ -206,9 +206,16 @@ def update_race_data(season_number, refresh):
 def delete_race(season_number, race_number, dbonly):
     race_slug = base_ra_slug.format(season_number, race_number)
     conn = dba.create_connection(settings.racelist_db_path)
-    dba.delete_race(conn, race_slug)
+
+    try:
+        dba.delete_race(conn, race_slug)
+    except:
+        pass
     if not dbonly:
-        delete_ra_info(season_number, race_slug)
+        try:
+            delete_ra_info(season_number, race_slug)
+        except:
+            pass
     conn.close()
 
 

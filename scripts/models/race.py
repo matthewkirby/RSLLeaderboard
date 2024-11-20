@@ -5,3 +5,4 @@ class Race:
         self.slug = slug
         self.end_time = end_time
         self.entrants = [Entrant(entry[0], entry[1], entry[2]) for entry in results if entry[3]]
+        self.record = bool(len(self.entrants))

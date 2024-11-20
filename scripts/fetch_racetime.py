@@ -19,7 +19,7 @@ _base_race_endpoint = "{}/data"
 def _read_last_race_id():
     if os.path.exists(_last_race_path):
         with open(_last_race_path, 'r') as fpointer:
-            last_race_id = fpointer.readline()
+            last_race_id = fpointer.readline().strip()
         return last_race_id
     return None
 
