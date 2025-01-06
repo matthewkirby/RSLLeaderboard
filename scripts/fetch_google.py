@@ -1,5 +1,6 @@
 """ Functions to fetch data from google sheets """
 import os
+import sys
 import json
 import argparse
 from datetime import datetime, timezone
@@ -116,11 +117,18 @@ def parse_userid(url):
 
 def combine_request_submit_data(requests, submits):
     entrants = { parse_userid(row.url): RatedAsyncPlayer(row.name, parse_userid(row.url), row.ruleset) for row in requests }
-    for row in submits:
-        userid = parse_userid(row.url)
-        entrants[userid].done = True
-        entrants[userid].time = row.time
-        entrants[userid].media = row.vod_link
+    try:
+        for row in submits:
+            userid = parse_userid(row.url)
+            entrants[userid].done = True
+            entrants[userid].time = row.time
+            entrants[userid].media = row.vod_link
+    except:
+        print("================================")
+        print("An error occured while processing the following submission data")
+        print(row)
+        print("================================")
+        sys.exit(1)
 
     return entrants
 
