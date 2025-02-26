@@ -26,9 +26,10 @@ interface TableProps {
   parentDataLoading?: boolean;
   callable?: React.MouseEventHandler<HTMLButtonElement>;
   url?: string | null;
+  tertData?: number | null;
 }
 
-const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant, data, parentDataLoading, callable, url}) => {
+const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant, data, parentDataLoading, callable, url, tertData}) => {
   const [loading, setLoading] = useState<boolean>(parentDataLoading ?? false);
 
   const SubComponent = rowComponents[variant];
@@ -52,7 +53,7 @@ const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant
     } else {
       return (data.map((player) => (
         <li className={styles.row} key={player.name}>
-          <SubComponent key={player.name} {...player} />
+          <SubComponent key={player.name} {...player} tertData={tertData} />
         </li>
       )));
     }

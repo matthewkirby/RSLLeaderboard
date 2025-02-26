@@ -7,10 +7,11 @@ import { formatDatetime, seasonFormatting } from 'utils/formatting';
 import { reportApiError } from 'utils/api';
 
 interface RaceData {
-  slug: string,
-  ended_at: string,
-  season: string,
-  url: string
+  slug: string;
+  ended_at: string;
+  season: string;
+  url: string;
+  dont_record: number;
 };
 
 interface RaceEntrantData {
@@ -78,6 +79,7 @@ const RaceHistory: React.FC = () => {
               data={raceEntrants[race.slug]}
               callable={() => getRaceEntrantData(race.slug)}
               url={race.url}
+              tertData={race.dont_record}
             />
           );
         })

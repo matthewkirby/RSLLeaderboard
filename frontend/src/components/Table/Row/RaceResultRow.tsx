@@ -5,20 +5,22 @@ import styles from 'css/RaceResultRow.module.css';
 import RacetimeName from 'components/RacetimeName';
 
 interface RaceResultsData {
-  place: number,
-  name: string,
-  discriminator: string | null,
-  status: string,
-  finish_time: string,
-  comment: string,
-  delta: number,
-  ruleset: undefined | null | string
+  place: number;
+  name: string;
+  discriminator: string | null;
+  status: string;
+  finish_time: string;
+  comment: string;
+  delta: number;
+  ruleset: undefined | null | string;
+  tertData: number;
 }
 
 const RaceResultsRow: React.FC<RaceResultsData> = (props) => {
   const isRatingGain: Boolean = props.delta > 0;
   const ordinal = getOrdinal(props.place);
   const isNonStandard = props.ruleset != null && props.ruleset.toLocaleLowerCase() !== "standard";
+  const isUnscored = (props.tertData > 0) || (isNonStandard);
 
   const result = props.status === "dnf" ? "Forfeit" : formatDuration(props.finish_time);
 
@@ -34,7 +36,7 @@ const RaceResultsRow: React.FC<RaceResultsData> = (props) => {
       }
       <span className={styles.time}>{result}</span>
       <span className={`${styles.delta} ${isRatingGain ? styles.positive : styles.negative}`}>
-        {isNonStandard ? '' : (isRatingGain ? '+' : '') + `${Math.round(props.delta)}`}
+        {isUnscored ? '' : (isRatingGain ? '+' : '') + `${Math.round(props.delta)}`}
       </span>
     </React.Fragment>
   );  

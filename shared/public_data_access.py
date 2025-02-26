@@ -3,7 +3,7 @@ import settings
 from collections import namedtuple
 
 
-RaceRecord = namedtuple('RaceRecord', ['slug', 'url', 'ended_at', 'season'])
+RaceRecord = namedtuple('RaceRecord', ['slug', 'url', 'ended_at', 'season', 'dont_record'])
 EntrantRecord = namedtuple('EntrantRecord', [
     'name', 'discriminator', 'status', 'finish_time', 'place', 'comment', 'delta', 'ruleset'
 ])
@@ -18,7 +18,7 @@ def create_connection():
 
 def get_racelist(conn, where_clause=""):
     cursor = conn.cursor()
-    query = ["SELECT DISTINCT rl.slug, rl.url, rl.ended_at, rl.season",
+    query = ["SELECT DISTINCT rl.slug, rl.url, rl.ended_at, rl.season, rl.dont_record",
              "FROM entrants AS e",
              "LEFT JOIN racelist AS rl ON e.race_slug = rl.slug",
              where_clause,

@@ -9,6 +9,7 @@ interface QualifiedPlayerData {
   finishes: number;
   rating: number;
   placement: number;
+  tertData?: null;
 };
 
 const QualifiedRow: React.FC<QualifiedPlayerData> = (props) => {

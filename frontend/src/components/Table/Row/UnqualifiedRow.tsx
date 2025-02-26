@@ -5,6 +5,7 @@ import styles from 'css/UnqualifiedRow.module.css';
 interface UnqualifiedPlayerData {
   name: string;
   finishes: number;
+  tertData?: null;
 };
 
 const UnqualifiedRow: React.FC<UnqualifiedPlayerData> = (props) => {
