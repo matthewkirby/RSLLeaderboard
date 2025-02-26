@@ -66,11 +66,11 @@
   margin: 0 0 0 -5px;
 }
 
-a.rtlink {
+.rtlink {
   color: var(--font-color-main)
 }
 
-a.rtlink:hover {
+.rtlink:hover {
   color: white;
   border: dashed var(--element-emphasis-color)  1px;
   padding: 2px;
