@@ -5,16 +5,18 @@ from models.player import Player
 from models.race import Race
 
 
-def load_seasonal_data(season, conn):
+def load_seasonal_data(season, conn, include_all=True):
     # Load the list of all players
     players = dba.fetch_all_players(conn, columns=['userid', 'name', 'discriminator'])
     playerlist = {player[0]: Player(player[0], player[1], player[2], ts.Rating()) for player in players}
 
     # Load the list of all races
-    races = dba.fetch_all_races(conn, season, columns=['slug', 'ended_at'])
+    races = dba.fetch_all_races(conn, season, columns=['slug', 'ended_at', 'dont_record'])
     racelist = []
     for race in races:
-        slug, end_time = race
+        slug, end_time, dont_record = race
+        if dont_record and not include_all:
+            continue
         results = dba.fetch_entrants_by_race(conn, slug, columns=['id', 'user_id', 'place', 'include'])
         race = Race(slug, end_time, results)
         if race.record:
@@ -28,7 +30,7 @@ def calculate_ratings(season):
     conn = dba.create_connection(settings.racelist_db_path)
 
     # Load the data for the given season
-    playerlist, racelist = load_seasonal_data(season, conn)
+    playerlist, racelist = load_seasonal_data(season, conn, include_all=False)
 
     # Iterate over the races and calculate ratings
     for race in racelist:
