@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styles from 'css/Table.module.css';
 import rowComponents, { DataVariants, TableVariants } from './Row';
 import Loading from 'components/Loading';
+import TableBanner from './TableBanner';
 
 type handlerFunctionType = () => React.ReactNode;
 
@@ -26,7 +27,7 @@ interface TableProps {
   parentDataLoading?: boolean;
   callable?: React.MouseEventHandler<HTMLButtonElement>;
   url?: string | null;
-  tertData?: number | null;
+  tertData?: number;
 }
 
 const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant, data, parentDataLoading, callable, url, tertData}) => {
@@ -90,6 +91,7 @@ const Table: React.FC<TableProps> = ({ primaryHeading, secondaryHeading, variant
       <li className={styles.header}>
         {handleHeaderRender()}
       </li>
+      {(tertData ?? 0) > 0 ? <TableBanner flag={tertData as number} /> : ''}
       {handleRowRender()}
     </ol>
   );

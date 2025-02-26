@@ -1,0 +1,17 @@
+.tableBanner {
+  line-height: 1rem;
+  padding: 2px 15px;
+  margin: 0;
+
+  color: var(--element-bg-color-base);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.bannerRed {
+  background-color: #FF3B30FF;
+}
+
+.bannerBlue {
+  background-color: #0A84FFFF;
+}
