@@ -10,7 +10,24 @@ def create_connection(db_path):
     """ Create database connection and execute any queries that should be run every time. """
     conn = sqlite3.connect(db_path)
     conn.execute("PRAGMA foreign_keys = ON;")
+    check_for_updates(conn)
     return conn
+
+
+def check_for_updates(conn):
+    c = conn.execute('SELECT name FROM sqlite_master')
+    tablenames = [name[0] for name in c.fetchall()]
+
+    # versions 1 to 2 added a `dont_record` column to racelist
+    if 'racelist' in tablenames:
+        c = conn.execute('SELECT * from racelist LIMIT 1')
+        colnames = [description[0] for description in c.description]
+        if 'dont_record' not in colnames and os.path.exists(settings.racelist_schema_v2_path):
+            print("Migrating db to v2")
+            with open(settings.racelist_schema_v2_path) as file:
+                v2_sql = file.read()
+            conn.executescript(v2_sql)
+            conn.commit()
 
 
 def initialize_databases():
@@ -33,7 +50,10 @@ def initialize_databases():
 
             # Commit changes and close the connection
             conn.commit()
-            conn.close()
+
+    check_for_updates(conn)
+    conn.close()
+
 
 
 def delete_databases():
@@ -248,3 +268,7 @@ def load_json_races():
         conn.commit()
 
     conn.close()
+
+
+if __name__ == "__main__":
+    initialize_databases()

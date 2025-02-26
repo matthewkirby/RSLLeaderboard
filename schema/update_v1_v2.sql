@@ -1,0 +1,1 @@
+ALTER TABLE racelist ADD dont_record INTEGER DEFAULT 0;

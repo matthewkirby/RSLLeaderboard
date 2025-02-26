@@ -33,6 +33,7 @@ for _snum, _sdata in _season_dates.items():
 # Define paths to the data files
 racelist_db_path = os.path.join(data_dir, _config.get('RacelistDatabase', 'database_file'))
 racelist_schema_path = os.path.join(project_root, "schema", _config.get('RacelistDatabase', 'schema_file'))
+racelist_schema_v2_path = os.path.join(project_root, "schema", _config.get('RacelistDatabase', 'v2_file'))
 leaderboard_file_path = os.path.join(data_dir, _config.get('LeaderboardData', 'data_file'))
 weights_file_path = os.path.join(data_dir, "rsl_weight_summary.json")
 
