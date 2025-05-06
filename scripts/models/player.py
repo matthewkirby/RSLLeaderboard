@@ -36,6 +36,7 @@ class Player:
         sigma = self.rating.sigma
         self.public_rating = round((mu - 2*sigma)*100)
         player_info = {
+            "userid": self.userid,
             "name": self.name,
             "entries": self.entries,
             "finishes": self.finishes,
